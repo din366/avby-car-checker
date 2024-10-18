@@ -1,0 +1,82 @@
+@font-face{
+  font-family: "Roboto";
+  src:local("Roboto-Bold"),
+  url('./src/assets/fonts/roboto/Roboto-Bold.ttf');
+  font-weight: 700;
+}
+
+@font-face{
+  font-family: "Roboto";
+  src:local("Roboto-Light"),
+  url('./src/assets/fonts/roboto/Roboto-Light.ttf');
+  font-weight: 300;
+}
+
+@font-face{
+  font-family: "Roboto";
+  src:local("Roboto-Regular"),
+  url('./src/assets/fonts/roboto/Roboto-Regular.ttf');
+  font-weight: 400;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+
+:root {
+  font-family: Roboto, sans-serif;
+  font-weight: 400;
+  max-width: none;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+html {
+  box-sizing: border-box;
+}
+
+span, a, button {
+  font-family: Roboto, sans-serif;
+}
+
+h1 {
+  color: var(--text-color);
+  /*padding-top: 30px;
+  margin-top: 0;*/
+}
+
+.container {
+  padding: 0 20px;
+}
+
+html[data-theme='light'] {
+  --header-background-color: #f3f3f3;
+  --text-color: #2c2c2c;
+  --theme-button-background-color: #c7c6c6;
+  --main-background-color: #e8e8e8;
+}
+
+html[data-theme='dark'] {
+  --header-background-color: #565656;
+  --text-color: #efefef;
+  --theme-button-background-color: #8c8b8b;
+  --main-background-color: #676767;
+}
+
+.mainBlockWrapper {
+  background-color: var(--main-background-color);
+  transition: 0.3s background-color;
+  height: 100vh;
+  box-sizing: border-box;
+  padding: 1px;
+}
+
+@media (max-width: 500px) {
+  .container {
+    padding: 0 10px;
+  }
+}
