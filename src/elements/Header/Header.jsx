@@ -1,12 +1,13 @@
 import styles from './Header.module.scss';
-import {useTheme} from "../../hooks/useTheme.js";
+import {useTheme} from "../../hooks/ThemeContext.jsx";
 import {Link, NavLink} from "react-router-dom";
 import headerLogo from './../../assets/header-logo.png';
 import moonIcon from './../../assets/theme-icons/moon.png'
 import sunIcon from './../../assets/theme-icons/sun.png'
 
 const Header = () => {
-  const [theme, setTheme] = useTheme();
+  /*const [theme, setTheme] = useTheme();*/
+  const { theme, setTheme } = useTheme();
   const token = null;
 
   const toggleTheme = () => {

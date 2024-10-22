@@ -1,0 +1,42 @@
+.changeCategoryButtonsWrapper {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+
+  button {
+    padding: 5px 15px;
+    margin-right: 10px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    background-color: var(--header-background-color);
+    color: var(--text-color);
+    transition: 0.5s all;
+  }
+
+  button.active {
+    background-color: var(--button-active);
+  }
+
+  button:hover {
+    transform: translateY(-2px);
+    background-color: var(--button-hover);
+  }
+
+
+
+  button:last-child {
+    margin-right: 0;
+  }
+}
+
+.noAutoBlock {
+  margin-top:50px;
+  margin-bottom: 600px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  color: var(--text-color);
+  font-size: 22px;
+}

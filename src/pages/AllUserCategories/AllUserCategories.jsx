@@ -2,7 +2,7 @@ import styles from './AllUserCategories.module.scss';
 import {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {categoriesData, getCategoryName} from "../../store/userCategorySlice.js";
-import {Link} from "react-router-dom";
+import CategoryItem from "./CategoryItem/CategoryItem.jsx";
 
 const AllUserCategories = () => {
   const dispatch = useDispatch();
@@ -24,18 +24,15 @@ const AllUserCategories = () => {
           <div className={styles.carCateroryWrapper}>
 
             {categories ? categories.map((category) => (
-              <Link to={`/categories/${category.itemId}`} key={category.id}>
-                <div className={styles.carCategory}>
-                  <div className={styles.carCategoryImageWrapper}>
-                    <img className={styles.carCategoryImage} src={category.thumb} alt=""/>
-                  </div>
-                  <div className={styles.carCategoryText}>
-                    <span className={styles.carCategoryTitle}>Авто: {category.name}</span>
-                    <span className={styles.carCategoryCarCount}>Сейчас в продаже: {category.items} шт</span>
-                    <span className={styles.carCategoryUpdate}>Последнее обновление: {category.updateTime}</span>
-                  </div>
-                </div>
-              </Link>
+              <CategoryItem
+                key={category.itemId}
+                itemId={category.itemId}
+                thumb={category.thumb}
+                name={category.name}
+                items={category.items}
+                updateTime={category.updateTime}
+              />
+
             )) : 'No items'}
 
           </div>

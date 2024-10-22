@@ -1,0 +1,33 @@
+.table {
+  border-spacing: 0;
+  tr {
+    th,td {
+      padding: 7px 18px;
+      text-align: center;
+      font-size: 14px;
+      font-weight: 400;
+      background-color: var(--table-background-color);
+
+      img {
+        width: 10px;
+        margin-right: 5px;
+      }
+
+      .greenArrow {
+        transform: rotate(-90deg);
+      }
+
+      .redArrow {
+        transform: rotate(90deg);
+      }
+    }
+    th:nth-child(2n),td:nth-child(2n) {
+      background-color: var(--main-background-color);
+    }
+  }
+
+  tr:first-child, th {
+    border-bottom: 1px solid var(--table-border);
+  }
+}
+

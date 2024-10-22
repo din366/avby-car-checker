@@ -1,0 +1,19 @@
+.carCategoryInfoWrapper {
+  width: 100%;
+
+  .carCategoryInfo {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 20px;
+    border-radius: 10px;
+    border: none;
+    background-color: var(--header-background-color);
+    margin-bottom: 20px;
+
+    .carCategoryTextBlock {
+      width: 32%;
+      color: var(--text-color);
+    }
+  }
+}
