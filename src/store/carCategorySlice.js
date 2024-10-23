@@ -38,8 +38,9 @@ const carCategorySlice = createSlice({
 
 export const getCarCategory = createAsyncThunk(
   'getCarCategory',
-  async (carId, {rejectWithValue}) => {
-    const token = 'QXF24GFxcJSnhTSmaxRsKa08';
+  async (carId, {rejectWithValue, getState}) => {
+    const state = getState();
+    const token = state.login.token;
 
     try {
       const response = await axios.get(SINGLE_CAR_CATEGORY(carId), {

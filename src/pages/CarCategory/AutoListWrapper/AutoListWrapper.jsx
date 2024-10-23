@@ -24,7 +24,7 @@ const AutoListWrapper = ({currentCars, categoryId, newCars, soldCars, selectedCa
           currentCategory={selectedCategory}
           key={item.url}
           data={item} categoryId={categoryId}
-          duplicateAd={soldCars ? soldCars.filter(soldCar => {
+          duplicateAd={soldCars ? soldCars.filter(soldCar => { // get other duplicate ads for current car
             return soldCar.vin === item.vin
           }) : ''}
         />

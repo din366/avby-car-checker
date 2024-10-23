@@ -4,11 +4,14 @@ import {Link, NavLink} from "react-router-dom";
 import headerLogo from './../../assets/header-logo.png';
 import moonIcon from './../../assets/theme-icons/moon.png'
 import sunIcon from './../../assets/theme-icons/sun.png'
+import {useDispatch, useSelector} from "react-redux";
+import {getToken, logout} from "../../store/loginSlice.js";
 
 const Header = () => {
+  const dispatch = useDispatch();
   /*const [theme, setTheme] = useTheme();*/
   const { theme, setTheme } = useTheme();
-  const token = null;
+  const token = useSelector(getToken);
 
   const toggleTheme = () => {
     theme === "dark" ? setTheme("light") : setTheme("dark");
@@ -31,7 +34,7 @@ const Header = () => {
                   <img src={sunIcon} alt=""/>}
 
               </button>
-              <NavLink className={styles.loginButton} to={token ? 'categories' : 'login'}>{token ? 'Выйти' : 'Войти'}</NavLink>
+              <NavLink className={styles.loginButton} onClick={() => {dispatch(logout())}} to={token ? 'categories' : 'login'}>{token ? 'Выйти' : 'Войти'}</NavLink>
             </div>
           </div>
         </div>

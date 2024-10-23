@@ -3,17 +3,21 @@ import {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {categoriesData, getCategoryName} from "../../store/userCategorySlice.js";
 import CategoryItem from "./CategoryItem/CategoryItem.jsx";
+import {useLogged} from "../../features/useLogged.js";
+import {getToken} from "../../store/loginSlice.js";
 
 const AllUserCategories = () => {
+  useLogged();
+  const token = useSelector(getToken);
   const dispatch = useDispatch();
   const categories = useSelector(categoriesData);
 
   useEffect(() => {
-    dispatch(getCategoryName());
-  }, [dispatch]);
+    if (token){
+      dispatch(getCategoryName());
+    }
+  }, [dispatch, token]);
 
-
-  console.log(categories)
   return (
     <div>
 

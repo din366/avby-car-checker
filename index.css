@@ -86,9 +86,10 @@ html[data-theme='dark'] {
 .mainBlockWrapper {
   background-color: var(--main-background-color);
   transition: 0.3s background-color;
-  min-height: 100vh;
+  min-height: calc(100vh - 70px);
   box-sizing: border-box;
   padding: 1px;
+  overflow: hidden;
 }
 
 @media (max-width: 500px) {

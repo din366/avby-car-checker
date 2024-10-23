@@ -1,7 +1,10 @@
+import {useLogged} from "../../features/useLogged.js";
+
 const Main = () => {
+  useLogged(true);
   return (
     <div>
-      ывавыа
+
     </div>
   );
 };

@@ -1,31 +1,6 @@
 import styles from './SingleCarBlock.module.scss';
-import {Link} from "react-router-dom";
 import CombineCarDynamicsToTable from "./CombineCarDynamicsToTable/combineCarDynamicsToTable.jsx";
 import avLogo from './../../../../assets/av-logo.png';
-
-
-const DuplicatedLinks = ({duplicateAd, sliceCount, currentCategory}) => {
-  return (
-    <>
-      {currentCategory !== 'sold' ? <span>Удаленные ({duplicateAd.length}):</span> :
-        <span>История:</span>}
-
-      <div className={styles.duplicateAds}>
-      {duplicateAd.slice(-sliceCount).map(item =>
-          <a className={styles.duplicateBlock}
-             key={item.url}
-             target='_blank'
-             href={item.url}
-             onClick={(e) => {
-               e.stopPropagation()
-             }}>
-            <img src={avLogo} alt=""/>
-            {item.soldDate} - {item.usdPriceDynamics[item.usdPriceDynamics.length - 1][1]} $
-          </a>)}
-      </div>
-    </>
-  )
-}
 
 const PriceDynamics = ({usdPriceDynamics}) => {
   return (
@@ -61,13 +36,33 @@ const NewAndSoldDates = ({data, currentCategory}) => {
   )
 }
 
+const DuplicatedLinks = ({duplicateAd, sliceCount, currentCategory}) => {
+  return (
+    <>
+      {currentCategory !== 'sold' ? <span>Удаленные ({duplicateAd.length}):</span> :
+        <span>История:</span>}
+
+      <div className={styles.duplicateAds}>
+        {duplicateAd.slice(-sliceCount).map(item =>
+          <a className={styles.duplicateBlock}
+             key={item.url}
+             target='_blank'
+             href={item.url}
+             onClick={(e) => {
+               e.stopPropagation()
+             }}>
+            <img src={avLogo} alt=""/>
+            {item.soldDate} - {item.usdPriceDynamics[item.usdPriceDynamics.length - 1][1]} $
+          </a>)}
+      </div>
+    </>
+  )
+}
+
 const DuplicatedLinksBlock = ({currentCategory, duplicateAd}) => {
   return (
     <div className={styles.duplicateAdsWrapper}>
-      {/*{currentCategory === 'current' || currentCategory === 'disabled' ?*/}
         <DuplicatedLinks duplicateAd={duplicateAd} sliceCount={5} currentCategory={currentCategory}/>
-       {/* : <DuplicatedLinks duplicateAd={duplicateAd} sliceCount={1}/>
-      }*/}
     </div>
   )
 }
@@ -91,8 +86,7 @@ const InfoBlock = ({data, currentCategory, duplicateAd}) => {
 
       </div>
 
-      {data.usdPriceDynamics.length > 1 && currentCategory !== 'new' ?
-        <PriceDynamics usdPriceDynamics={data.usdPriceDynamics}/> : ''}
+      {data.usdPriceDynamics.length > 1 ? <PriceDynamics usdPriceDynamics={data.usdPriceDynamics}/> : ''}
 
 
       {(data.firstShowDate || data.soldDate) ?
@@ -107,10 +101,7 @@ const InfoBlock = ({data, currentCategory, duplicateAd}) => {
 }
 
 const SingleCarBlock = ({data, categoryId, duplicateAd, currentCategory}) => {
-  const splittingLinkArray = data.url.split('/');
   return (
-    <Link className={styles.mainLink}
-          to={`/categories/${categoryId}/${splittingLinkArray[splittingLinkArray.length - 1]}`}>
       <div className={styles.mainBlockWrapper}>
         <div className={styles.imageBlock}>
           <img src={data.img}/>
@@ -118,7 +109,6 @@ const SingleCarBlock = ({data, categoryId, duplicateAd, currentCategory}) => {
 
         <InfoBlock data={data} currentCategory={currentCategory} duplicateAd={duplicateAd}/>
       </div>
-    </Link>
   );
 };
 

@@ -33,10 +33,11 @@ const userCategorySlice = createSlice({
 export const getCategoryName = createAsyncThunk(
   'category/getCategoryName',
   async (_, {
-    rejectWithValue
+    rejectWithValue, getState
   }) => {
     /*const token = state.login.token;*/
-    const token = 'QXF24GFxcJSnhTSmaxRsKa08';
+    const state = getState();
+    const token = state.login.token;
 
     try {
       const response = await axios.get(USER_CATEGORY, {

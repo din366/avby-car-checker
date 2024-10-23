@@ -12,20 +12,24 @@ import CarCategoryDynamicsBlock from "./CarCategoryDynamicsBlock/CarCategoryDyna
 import AutoListWrapper from "./AutoListWrapper/AutoListWrapper.jsx";
 import CarMainInfo from "./CarMainInfo/CarMainInfo.jsx";
 import Breadcrumbs from "../../elements/Breadcrumbs/Breadcrumbs.jsx";
+import {useLogged} from "../../features/useLogged.js";
+import {getToken} from "../../store/loginSlice.js";
 
 const CarCategory = () => {
+  useLogged();
   const {categoryId} = useParams();
+  const token = useSelector(getToken);
   const dispatch = useDispatch();
   const fullCategoryData = useSelector(getCarCategoryData);
   const dynamicsData = useSelector(getCarCategoryPriceDynamics);
   const currentCategory = useSelector(showCategory);
   const getActiveCategory = useSelector(state => getCarCategoryDataActive(state, currentCategory))
   useEffect(() => {
-    if (categoryId) {
+    if (token && categoryId) {
       dispatch(getCarCategory(categoryId));
       dispatch(changeCategory('current')); // reset category when user go to this page
     }
-  }, [dispatch]);
+  }, [dispatch, token]);
 
   return (
     <>
