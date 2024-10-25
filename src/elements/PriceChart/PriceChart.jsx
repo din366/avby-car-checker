@@ -2,6 +2,8 @@ import { ResponsiveLine } from '@nivo/line'
 import {useEffect, useState} from "react";
 import {useTheme} from "../../hooks/ThemeContext.jsx";
 export const PriceChart = ({ data = []}) => {
+  const fixedData = data ? {...data, data: data.data.map(item => ({...item, x: item.x.slice(0, -5)}))} : [];
+  console.log(fixedData);
   const { theme } = useTheme();
   const [textColor, setTextColor] = useState('#e8e8e8')
   useEffect(() => {
@@ -40,7 +42,7 @@ export const PriceChart = ({ data = []}) => {
     },
   };
   return <ResponsiveLine
-    data={[data]}
+    data={[fixedData]}
     margin={{ top: 20, right: 10, bottom: 60, left: 50 }}
     /*enableArea={true}*/
     xScale={{ type: 'point' }}
