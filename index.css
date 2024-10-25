@@ -67,7 +67,12 @@ html[data-theme='light'] {
   --table-border: #c4c4c4;
   --button-active: #cddbf8;
   --button-hover: #b3cbff;
+  --favorite-button: #d0f8cd;
+  --favorite-button-active: #dbf5d2;
+  --hidden-button: #f8cdcd;
+  --hidden-button-active: #e8d4d4;
   --breadcrumbs-hover: #226bd3;
+  --favorite-background-color: #d4e8d4;
 }
 
 html[data-theme='dark'] {
@@ -79,8 +84,13 @@ html[data-theme='dark'] {
   --table-background-color: #575b62;
   --table-border: #8d8d8d;
   --button-active: #3c6194;
+  --favorite-button: #3f943c;
+  --favorite-button-active: #627359;
+  --hidden-button: #943c3c;
+  --hidden-button-active: #705959;
   --button-hover: #226bd3;
   --breadcrumbs-hover: #769cff;
+  --favorite-background-color: #445240;
 }
 
 .mainBlockWrapper {

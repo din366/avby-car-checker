@@ -1,6 +1,6 @@
 import {createAsyncThunk, createSelector, createSlice} from "@reduxjs/toolkit";
 import axios from "axios";
-import {SINGLE_CAR_CATEGORY} from "../globalPaths.js";
+import {SET_FAVORITE_OR_HIDDEN_CAR, SINGLE_CAR_CATEGORY} from "../globalPaths.js";
 
 const initialState = {
   isLoading: false,
@@ -33,6 +33,20 @@ const carCategorySlice = createSlice({
         state.isError = null;
         state.data = action.payload;
       })
+      .addCase(setFavoriteOrHiddenCar.pending, (state) => {
+        state.isLoading = true;
+        state.isError = false;
+      })
+      .addCase(setFavoriteOrHiddenCar.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = action.payload;
+        state.data = null;
+      })
+      .addCase(setFavoriteOrHiddenCar.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = null;
+        state.data = action.payload;
+      })
   }
 })
 
@@ -59,6 +73,30 @@ export const getCarCategory = createAsyncThunk(
   }
 )
 
+export const setFavoriteOrHiddenCar = createAsyncThunk(
+  'setFavoriteOrHiddenCar',
+  async ({categoryId, carId, type}, {rejectWithValue, getState}) => {
+    const state = getState();
+    const token = state.login.token;
+    console.log(SET_FAVORITE_OR_HIDDEN_CAR(categoryId, carId, type))
+    try {
+      const response = await axios.get(SET_FAVORITE_OR_HIDDEN_CAR(categoryId, carId, type), {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      if (response.data.error) {
+        console.log(response.data.error)
+        return rejectWithValue(response.data.error);
+      }
+      return response.data.payload;
+    } catch (err) {
+      return rejectWithValue(err.message);
+    }
+  }
+)
+
 // * selectors
 
 export const getCarCategoryData = (state) => state.userCarCategory.data;
@@ -74,6 +112,12 @@ export const getCarCategoryDataActive = (state, category) => {
         seen.add(item.vin);
         return !duplicate;
       })}
+    if (category === 'favorite') {
+      return [...state.userCarCategory.data.currentCars].filter(item => item.isFavorite);
+    }
+    if (category === 'hidden') {
+      return [...state.userCarCategory.data.currentCars].filter(item => item.isHidden);
+    }
     return state.userCarCategory.data.currentCars;
   }
     return null;

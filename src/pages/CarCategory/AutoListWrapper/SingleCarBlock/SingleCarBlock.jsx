@@ -1,6 +1,8 @@
 import styles from './SingleCarBlock.module.scss';
 import CombineCarDynamicsToTable from "./CombineCarDynamicsToTable/combineCarDynamicsToTable.jsx";
 import avLogo from './../../../../assets/av-logo.png';
+import {useDispatch} from "react-redux";
+import {setFavoriteOrHiddenCar} from "../../../../store/carCategorySlice.js";
 
 const PriceDynamics = ({usdPriceDynamics}) => {
   return (
@@ -26,6 +28,23 @@ const GoToSiteButton = ({url}) => {
     </a>
   )
 }
+
+const FavoriteOrHiddenButton = ({type, carIsFavorite, carIsHidden, categoryId, carUrl}) => {
+  const dispatch = useDispatch();
+  const arr = carUrl.split("/");
+  const carId =  arr[arr.length - 1];
+
+  const toggleParam = (type) => {
+    dispatch(setFavoriteOrHiddenCar({categoryId, carId, type}));
+  }
+  return (
+    <>
+      {type === 'favorite' ?
+        <button onClick={() => {toggleParam('favorite')}} className={`${styles.favoriteButton} ${carIsFavorite ? styles.favoriteActive : ''}`}>{carIsFavorite ? 'Убрать из избранного' : 'В избранное'}</button> :
+        <button onClick={() => {toggleParam('hidden')}} className={`${styles.hiddenButton} ${carIsHidden ? styles.hiddenActive : ''}`}>{carIsHidden ? 'Убрать из скрытых' : 'Скрыть'}</button>
+      }
+    </>
+)}
 
 const NewAndSoldDates = ({data, currentCategory}) => {
   return (
@@ -67,7 +86,7 @@ const DuplicatedLinksBlock = ({currentCategory, duplicateAd}) => {
   )
 }
 
-const InfoBlock = ({data, currentCategory, duplicateAd}) => {
+const InfoBlock = ({data, currentCategory, duplicateAd, categoryId}) => {
   return (
     <div className={styles.info}>
       <div className={styles.text}>
@@ -89,25 +108,34 @@ const InfoBlock = ({data, currentCategory, duplicateAd}) => {
       {data.usdPriceDynamics.length > 1 ? <PriceDynamics usdPriceDynamics={data.usdPriceDynamics}/> : ''}
 
 
-      {(data.firstShowDate || data.soldDate) ?
-        <NewAndSoldDates data={data} currentCategory={currentCategory}/> : ''}
+
 
       <GoToSiteButton url={data.url}/>
+      <div className={styles.favoriteOrHiddenButtonsWrapper}>
+        {(data.firstShowDate || data.soldDate) ?
+          <NewAndSoldDates data={data} currentCategory={currentCategory}/> : ''}
+
+        <FavoriteOrHiddenButton categoryId={categoryId} carUrl={data.url} type='favorite' carIsFavorite={data.isFavorite}/>
+        <FavoriteOrHiddenButton categoryId={categoryId} carUrl={data.url} type='hidden' carIsHidden={data.isHidden}/>
+      </div>
 
       {(duplicateAd.length && currentCategory !== 'new') ?
         <DuplicatedLinksBlock currentCategory={currentCategory} duplicateAd={duplicateAd}/> : ''}
     </div>
   )
 }
-
+// ! НАДО ОТФИКСИТЬ СИТУАЦИЮ, КОГДА В ТЕКУЩИХ МАШИНАХ ДОБАВЛЯЕТСЯ В ИЗБРАННОМ, А В ПРОДАННЫХ НЕТ
+// ! В то же время когда в проданных я добавляю в избранные, то в новых аналогичная машина убирается, и наоборот
+// ! т.е. мне надо при добавлении в избранное в текущих машинах пробегать по проданным и также добавлять галочку
+// ! в новых будет такая же штука, надо предусмотреть
 const SingleCarBlock = ({data, categoryId, duplicateAd, currentCategory}) => {
   return (
-      <div className={styles.mainBlockWrapper}>
+      <div className={`${styles.mainBlockWrapper} ${((currentCategory === 'current' || currentCategory === 'sold') && data.isFavorite) ? styles.mainBlockFavorite : ''}`}>
         <div className={styles.imageBlock}>
           <img src={data.img}/>
         </div>
 
-        <InfoBlock data={data} currentCategory={currentCategory} duplicateAd={duplicateAd}/>
+        <InfoBlock data={data} currentCategory={currentCategory} duplicateAd={duplicateAd} categoryId={categoryId}/>
       </div>
   );
 };

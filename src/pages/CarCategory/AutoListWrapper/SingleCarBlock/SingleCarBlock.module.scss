@@ -38,9 +38,8 @@
     width: 70%;
 
     .firstDateShowWrapper{
-      position: absolute;
-      right: 120px;
-      top: 20px;
+      display: flex;
+      flex-wrap: wrap;
       padding: 7px;
       font-size: 13px;
       color: var(--text-color);
@@ -156,5 +155,55 @@
       max-width: 100%;
       width: 80%;
     }
+
+    .favoriteOrHiddenButtonsWrapper {
+      display: flex;
+      align-items: center;
+      position: absolute;
+      top: 20px;
+      right: 130px;
+
+      button {
+        font-size: 13px;
+        padding: 7px 20px;
+        border-radius: 5px;
+        border: none;
+        cursor: pointer;
+        background-color: var(--main-background-color);
+        color: var(--text-color);
+        transition: 0.5s all;
+        z-index: 10;
+        margin-right: 10px;
+      }
+
+      .favoriteActive {
+        background-color: var(--favorite-button-active);
+      }
+
+      .hiddenActive {
+        background-color: var(--hidden-button-active);
+      }
+
+      .favoriteButton:hover {
+        background-color: var(--favorite-button);
+      }
+
+      .hiddenButton:hover {
+        background-color: var(--hidden-button);
+      }
+
+      button:hover {
+        transform: translateY(-2px);
+        background-color: var(--button-hover);
+      }
+
+      button:last-child {
+        margin-right: 0;
+      }
+    }
   }
+}
+
+.mainBlockFavorite {
+  background-color: var(--favorite-background-color);
 }
