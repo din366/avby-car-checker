@@ -5,12 +5,14 @@ import {categoriesData, getCategoryName} from "../../store/userCategorySlice.js"
 import CategoryItem from "./CategoryItem/CategoryItem.jsx";
 import {useLogged} from "../../features/useLogged.js";
 import {getToken} from "../../store/loginSlice.js";
+import {currentUpdate} from "../../store/updateCarDataSlice.js";
 
 const AllUserCategories = () => {
   useLogged();
   const token = useSelector(getToken);
   const dispatch = useDispatch();
   const categories = useSelector(categoriesData);
+  const currentUpdateProcess = useSelector(currentUpdate);
 
   useEffect(() => {
     if (token){
@@ -35,6 +37,7 @@ const AllUserCategories = () => {
                 name={category.name}
                 items={category.items}
                 updateTime={category.updateTime}
+                currentUpdateProcess={currentUpdateProcess}
               />
 
             )) : 'No items'}

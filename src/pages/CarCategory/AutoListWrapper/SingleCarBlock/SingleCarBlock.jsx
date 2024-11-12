@@ -107,9 +107,6 @@ const InfoBlock = ({data, currentCategory, duplicateAd, categoryId}) => {
 
       {data.usdPriceDynamics.length > 1 ? <PriceDynamics usdPriceDynamics={data.usdPriceDynamics}/> : ''}
 
-
-
-
       <GoToSiteButton url={data.url}/>
       <div className={styles.favoriteOrHiddenButtonsWrapper}>
         {(data.firstShowDate || data.soldDate) ?
@@ -124,10 +121,6 @@ const InfoBlock = ({data, currentCategory, duplicateAd, categoryId}) => {
     </div>
   )
 }
-// ! НАДО ОТФИКСИТЬ СИТУАЦИЮ, КОГДА В ТЕКУЩИХ МАШИНАХ ДОБАВЛЯЕТСЯ В ИЗБРАННОМ, А В ПРОДАННЫХ НЕТ
-// ! В то же время когда в проданных я добавляю в избранные, то в новых аналогичная машина убирается, и наоборот
-// ! т.е. мне надо при добавлении в избранное в текущих машинах пробегать по проданным и также добавлять галочку
-// ! в новых будет такая же штука, надо предусмотреть
 const SingleCarBlock = ({data, categoryId, duplicateAd, currentCategory}) => {
   return (
       <div className={`${styles.mainBlockWrapper} ${((currentCategory === 'current' || currentCategory === 'sold') && data.isFavorite) ? styles.mainBlockFavorite : ''}`}>

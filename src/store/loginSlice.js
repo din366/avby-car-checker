@@ -6,6 +6,7 @@ const initialState = {
   token: null,
   loading: false,
   error: null,
+  socketId: null,
 }
 
 const loginSlice = createSlice({
@@ -17,6 +18,9 @@ const loginSlice = createSlice({
     },
     setToken: (state, action) => {
       state.token = action.payload;
+    },
+    setSocketId: (state, action) => {
+      state.socketId = action.payload;
     }
   },
   extraReducers: (builder) => {
@@ -61,10 +65,12 @@ export const logout = createAsyncThunk('login/logout', (payload, { dispatch }) =
 export const getLoading = (state) => state.login.loading;
 export const getErrorData = (state) => state.login.error;
 export const getToken = (state) => state.login.token;
+export const getSocketId = (state) => state.login.socketId;
 
 export const {
   clearToken,
-  setToken
+  setToken,
+  setSocketId
 } = loginSlice.actions;
 
 export const loginReducer = loginSlice.reducer;
