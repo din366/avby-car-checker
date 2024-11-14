@@ -17,8 +17,8 @@ export const PriceChart = ({ data = []}) => {
   );
 
   // Устанавливаем нижнюю границу графика чуть ниже минимального значения
-  const yMin = minYValue > 2000 ? minYValue - 200 : 0; // Настройка под диапазон значений
-  const yMax = maxYValue < 20000 ? maxYValue + 200 : 0; // Настройка под диапазон значений
+  const yMin = minYValue - 200; // Настройка под диапазон значений
+  const yMax = maxYValue + 200; // Настройка под диапазон значений
 
   const customTheme = {
     axis: {

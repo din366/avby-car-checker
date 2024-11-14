@@ -5,7 +5,11 @@ import {categoriesData, getCategoryName} from "../../store/userCategorySlice.js"
 import CategoryItem from "./CategoryItem/CategoryItem.jsx";
 import {useLogged} from "../../features/useLogged.js";
 import {getToken} from "../../store/loginSlice.js";
-import {currentUpdate} from "../../store/updateCarDataSlice.js";
+import {
+  currentUpdate, loadingWhileWaiting,
+  pushingCarLoadingWhileWaiting,
+  sendStartUpdatingRequest
+} from "../../store/updateCarDataSlice.js";
 
 const AllUserCategories = () => {
   useLogged();
@@ -13,19 +17,39 @@ const AllUserCategories = () => {
   const dispatch = useDispatch();
   const categories = useSelector(categoriesData);
   const currentUpdateProcess = useSelector(currentUpdate);
-
+  const carsUpdatingStatus = Object.values(currentUpdateProcess);
+  const loadingWhileWaitingData = useSelector(loadingWhileWaiting);
   useEffect(() => {
-    if (token){
+    if (token) {
       dispatch(getCategoryName());
     }
-  }, [dispatch, token]);
+  }, [dispatch, token, currentUpdateProcess]);
+
+  const startAllCarsUpdate = (e) => {
+    e.preventDefault();
+    dispatch(sendStartUpdatingRequest('all'));
+    categories.map(item => dispatch(pushingCarLoadingWhileWaiting(item.itemId)));
+  }
 
   return (
     <div>
 
       <div className='mainBlockWrapper'>
         <div className="container">
+          <div className={styles.categoryHeaderWrapper}>
           <h1>Список добавленных категорий</h1>
+            <div className={styles.categoryNavigationWrapper}>
+              <button
+                className={styles.updateAllButton}
+                /*onClick={}*/
+              >Добавить авто</button>
+              <button
+                disabled={carsUpdatingStatus.find(item => item === true) || loadingWhileWaitingData.length}
+                className={styles.updateAllButton}
+                onClick={(e) => {startAllCarsUpdate(e)}}
+              >Обновить все</button>
+            </div>
+          </div>
 
           <div className={styles.carCateroryWrapper}>
 
@@ -38,10 +62,9 @@ const AllUserCategories = () => {
                 items={category.items}
                 updateTime={category.updateTime}
                 currentUpdateProcess={currentUpdateProcess}
+                loadingWhileWaitingData={loadingWhileWaitingData}
               />
-
             )) : 'No items'}
-
           </div>
         </div>
       </div>

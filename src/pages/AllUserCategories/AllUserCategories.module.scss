@@ -2,4 +2,40 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-gap: 10px;
+  margin-bottom: 20px;
+}
+
+.categoryHeaderWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.updateAllButton {
+    background-color: var(--header-background-color);
+    color: var(--text-color);
+    transition: 0.5s all;
+    font-size: 13px;
+    padding: 7px 20px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+  }
+
+.updateAllButton:disabled {
+  background-color: var(--hidden-button-active);
+}
+
+.updateAllButton:hover {
+  background-color: var(--button-hover);
+}
+
+.updateAllButton:disabled:hover {
+  background-color: var(--hidden-button-active);
+}
+
+.categoryNavigationWrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 10px;
 }

@@ -1,15 +1,25 @@
 import styles from "./CategoryItem.module.scss";
 import {Link} from "react-router-dom";
 import {useDispatch} from "react-redux";
-import {sendStartUpdatingRequest} from "../../../store/updateCarDataSlice.js";
+import {
+  deleteCarLoadingWhileWaiting,
+  pushingCarLoadingWhileWaiting,
+  sendStartUpdatingRequest
+} from "../../../store/updateCarDataSlice.js";
+import {useEffect} from "react";
 
-const CategoryItem = ({itemId, items, name, thumb, updateTime, currentUpdateProcess}) => {
+const CategoryItem = ({itemId, items, name, thumb, updateTime, currentUpdateProcess, loadingWhileWaitingData}) => {
   const dispatch = useDispatch();
 
   const getUpdate = (e) => {
     e.preventDefault();
+    dispatch(pushingCarLoadingWhileWaiting(itemId));
     dispatch(sendStartUpdatingRequest(itemId));
   }
+
+  useEffect(() => {
+    if (currentUpdateProcess[itemId] === true) dispatch(deleteCarLoadingWhileWaiting(itemId));
+  }, [currentUpdateProcess]);
 
   return (
     <div>
@@ -23,12 +33,14 @@ const CategoryItem = ({itemId, items, name, thumb, updateTime, currentUpdateProc
             <span className={styles.carCategoryCarCount}>Сейчас в продаже: {items} шт</span>
             <span className={styles.carCategoryUpdate}>Последнее обновление: {updateTime}</span>
           </div>
-          <button disabled={currentUpdateProcess[itemId] === true} className={styles.updateButton} onClick={(e) => {
-            getUpdate(e)
-          }}>
+          <button
+            disabled={currentUpdateProcess[itemId] === true || loadingWhileWaitingData.find(item => item === itemId)}
+            className={styles.updateButton}
+            onClick={(e) => {getUpdate(e)}}>
             Обновить
           </button>
-          <div className={`${styles.spinnerWrapper} ${currentUpdateProcess[itemId] === true ? styles.spinnerWrapperActive : ''}`}>
+          <div
+            className={`${styles.spinnerWrapper} ${(currentUpdateProcess[itemId] === true || loadingWhileWaitingData.find(item => item === itemId)) ? styles.spinnerWrapperActive : ''}`}>
             <div className="loader"></div>
           </div>
         </div>

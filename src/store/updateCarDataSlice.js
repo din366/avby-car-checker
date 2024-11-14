@@ -4,6 +4,7 @@ import {UPDATE_URL} from "../globalPaths.js";
 
 const initialState = {
   updating: {},
+  loadingWhileWaiting: [],
   error: null,
 }
 
@@ -12,11 +13,14 @@ const updateCarDataSlice = createSlice({
   initialState,
   reducers: {
     startUpdating: (state, action) => {
-      return {
-        ...state,
-        updating: {...state.updating, [action.payload]: true},
-        error: null,
-      };
+      if (action.payload !== 'all') {
+        return {
+          ...state,
+          updating: {...state.updating, [action.payload]: true},
+          error: null,
+        };
+      }
+      return state;
     },
     updatingSuccessfully: (state, action) => {
       return {
@@ -31,6 +35,22 @@ const updateCarDataSlice = createSlice({
         updating: {...state.updating, [action.payload]: false},
         error: action.error,
       };
+    },
+    pushingCarLoadingWhileWaiting: (state, action) => {
+      return {
+        ...state,
+        loadingWhileWaiting: [
+          ...state.loadingWhileWaiting, action.payload
+        ]
+      }
+    },
+    deleteCarLoadingWhileWaiting: (state, action) => {
+      return {
+        ...state,
+        loadingWhileWaiting: [
+          ...state.loadingWhileWaiting.filter(item => item !== action.payload)
+        ]
+      }
     }
   }
 })
@@ -59,7 +79,6 @@ export const sendStartUpdatingRequest = createAsyncThunk(
     if (response.data.error) {
       return rejectWithValue(response.data.error);
     }
-    console.log(response.data.payload);
     return response.data.payload;
   }
 )
@@ -67,9 +86,12 @@ export const sendStartUpdatingRequest = createAsyncThunk(
 export const {
   startUpdating,
   updatingFailure,
-  updatingSuccessfully
+  updatingSuccessfully,
+  pushingCarLoadingWhileWaiting,
+  deleteCarLoadingWhileWaiting
 } = updateCarDataSlice.actions;
 
 export const updateCarCategoryReducer = updateCarDataSlice.reducer;
 
 export const currentUpdate = state => state.updateCarCategory.updating;
+export const loadingWhileWaiting = state => state.updateCarCategory.loadingWhileWaiting;
