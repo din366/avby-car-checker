@@ -10,6 +10,7 @@ import {
   pushingCarLoadingWhileWaiting,
   sendStartUpdatingRequest
 } from "../../store/updateCarDataSlice.js";
+import {getPopup} from "../../store/popupSlice.js";
 
 const AllUserCategories = () => {
   useLogged();
@@ -27,7 +28,7 @@ const AllUserCategories = () => {
 
   const startAllCarsUpdate = (e) => {
     e.preventDefault();
-    dispatch(sendStartUpdatingRequest('all'));
+    dispatch(sendStartUpdatingRequest({carId: 'all'}));
     categories.map(item => dispatch(pushingCarLoadingWhileWaiting(item.itemId)));
   }
 
@@ -41,7 +42,7 @@ const AllUserCategories = () => {
             <div className={styles.categoryNavigationWrapper}>
               <button
                 className={styles.updateAllButton}
-                /*onClick={}*/
+                onClick={() => {dispatch(getPopup({text: 'Обновление всех авто запущено', delay: 3000}))}}
               >Добавить авто</button>
               <button
                 disabled={carsUpdatingStatus.find(item => item === true) || loadingWhileWaitingData.length}

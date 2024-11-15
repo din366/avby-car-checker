@@ -3,6 +3,7 @@ import {userCategoryReducer} from "./userCategorySlice.js";
 import {carCategoryReducer} from "./carCategorySlice.js";
 import {loginReducer} from "./loginSlice.js";
 import {updateCarCategoryReducer} from "./updateCarDataSlice.js";
+import {popupReducer} from "./popupSlice.js";
 
 const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ const store = configureStore({
     userCarCategory: carCategoryReducer,
     login: loginReducer,
     updateCarCategory: updateCarCategoryReducer,
+    popup: popupReducer,
   },
   /*middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(loggerMiddleware),*/
 });

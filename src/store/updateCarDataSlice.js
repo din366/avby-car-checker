@@ -4,6 +4,7 @@ import {UPDATE_URL} from "../globalPaths.js";
 
 const initialState = {
   updating: {},
+  updatingCount: '0',
   loadingWhileWaiting: [],
   error: null,
 }
@@ -51,6 +52,18 @@ const updateCarDataSlice = createSlice({
           ...state.loadingWhileWaiting.filter(item => item !== action.payload)
         ]
       }
+    },
+    setUpdatingCount: (state, action) => {
+      return {
+        ...state,
+        updatingCount: action.payload,
+      }
+    },
+    clearUpdatingCount: (state, action) => {
+      return {
+        ...state,
+        updatingCount: '0',
+      }
     }
   }
 })
@@ -58,8 +71,8 @@ const updateCarDataSlice = createSlice({
 export const sendStartUpdatingRequest = createAsyncThunk(
   'updating/start',
   async (
-    carId,
-    {getState, rejectWithValue}
+    {carId, carName},
+    {getState, rejectWithValue, dispatch}
   ) => {
     const state = getState();
     const token = state.login.token;
@@ -88,10 +101,13 @@ export const {
   updatingFailure,
   updatingSuccessfully,
   pushingCarLoadingWhileWaiting,
-  deleteCarLoadingWhileWaiting
+  deleteCarLoadingWhileWaiting,
+  setUpdatingCount,
+  clearUpdatingCount
 } = updateCarDataSlice.actions;
 
 export const updateCarCategoryReducer = updateCarDataSlice.reducer;
 
 export const currentUpdate = state => state.updateCarCategory.updating;
 export const loadingWhileWaiting = state => state.updateCarCategory.loadingWhileWaiting;
+export const getUpdatingCount = state => state.updateCarCategory.updatingCount;

@@ -14,6 +14,7 @@ import CarMainInfo from "./CarMainInfo/CarMainInfo.jsx";
 import Breadcrumbs from "../../elements/Breadcrumbs/Breadcrumbs.jsx";
 import {useLogged} from "../../features/useLogged.js";
 import {getToken} from "../../store/loginSlice.js";
+import {currentUpdate} from "../../store/updateCarDataSlice.js";
 
 const CarCategory = () => {
   useLogged();
@@ -21,15 +22,22 @@ const CarCategory = () => {
   const token = useSelector(getToken);
   const dispatch = useDispatch();
   const fullCategoryData = useSelector(getCarCategoryData);
+  const currentUpdateProcess = useSelector(currentUpdate);
   const dynamicsData = useSelector(getCarCategoryPriceDynamics);
   const currentCategory = useSelector(showCategory);
   const getActiveCategory = useSelector(state => getCarCategoryDataActive(state, currentCategory))
   useEffect(() => {
     if (token && categoryId) {
       dispatch(getCarCategory(categoryId));
-      dispatch(changeCategory('current')); // reset category when user go to this page
+      dispatch(changeCategory('current')); // ? reset category when user go to this page
     }
   }, [dispatch, token]);
+
+  useEffect(() => { // ? when the data update occurred, but the user is in the auto category
+    if (token && categoryId) {
+      dispatch(getCarCategory(categoryId));
+    }
+  }, [currentUpdateProcess])
 
   return (
     <>

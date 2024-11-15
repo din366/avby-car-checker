@@ -1,0 +1,25 @@
+.loadingProgressBar {
+  width: 80px;
+  height: 40px;
+  position: absolute !important;
+  bottom: 50px;
+  right: 20px;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+
+  path:first-child {
+    stroke: var(--text-color);
+  }
+
+  path:last-child {
+    stroke: var(--button-hover);
+  }
+
+  div {
+    color: var(--text-color) !important;
+  }
+}
+
+.activeLoadingProgressBar {
+  opacity: 1;
+}

@@ -73,6 +73,7 @@ html[data-theme='light'] {
   --hidden-button-active: #e8d4d4;
   --breadcrumbs-hover: #226bd3;
   --favorite-background-color: #d4e8d4;
+  --popup-background-color: #4979e1;
 }
 
 html[data-theme='dark'] {
@@ -88,9 +89,10 @@ html[data-theme='dark'] {
   --favorite-button-active: #627359;
   --hidden-button: #943c3c;
   --hidden-button-active: #705959;
-  --button-hover: #226bd3;
+  --button-hover: #4979e1;
   --breadcrumbs-hover: #769cff;
   --favorite-background-color: #445240;
+  --popup-background-color: #4979e1;
 }
 
 .mainBlockWrapper {

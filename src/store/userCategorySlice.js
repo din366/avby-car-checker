@@ -1,4 +1,4 @@
-import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSelector, createSlice} from "@reduxjs/toolkit";
 import axios from "axios";
 import {USER_CATEGORY} from "../globalPaths.js";
 
@@ -59,5 +59,18 @@ export const getCategoryName = createAsyncThunk(
 // * selectors
 
 export const categoriesData = state => state.userCategory.categoriesData;
+
+export const carIdAndName = createSelector( // ? for websocket and popup warnings
+  [categoriesData],
+  (categories) => {
+    if (categories) {
+      return categories.reduce((acc, category) => {
+        acc[category.itemId] = category.name;
+        return acc;
+      }, {})
+    }
+    return null;
+  }
+)
 
 export const userCategoryReducer = userCategorySlice.reducer;

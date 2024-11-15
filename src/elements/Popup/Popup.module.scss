@@ -1,0 +1,42 @@
+.popupWrapper{
+  position: fixed;
+  bottom: 40px;
+  right: -400px;
+  padding: 15px 30px;
+  background-color: var(--popup-background-color);
+  color: #efefef;
+  transition: 0.5s all;
+  border-radius: 10px;
+  z-index: 100;
+
+  .popupText{
+    font-size: 16px;
+  }
+}
+
+.isShow{
+  right: 50px;
+}
+
+.alert {
+  background-color: #e14949;
+  color: white;
+}
+
+@media (max-width: 600px) {
+  .popupWrapper {
+    top: -200px;
+    right: 20px;
+    left: 20px;
+    text-align: center;
+    padding: 15px 15px;
+
+    .popupText{
+      font-size: 14px;
+    }
+  }
+
+  .isShow{
+    top: 30px;
+  }
+}
