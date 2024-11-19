@@ -6,15 +6,25 @@ import {
   sendStartUpdatingRequest
 } from "../../../store/updateCarDataSlice.js";
 import ProgressBarComponent from "./ProgressBar/ProgressBarComponent.jsx";
+import trashIconBlack from './../../../assets/trash-icon/trash-icon-black.png';
+import trashIconWhite from './../../../assets/trash-icon/trash-icon-white.png';
+import trashIconActive from './../../../assets/trash-icon/trash-icon-active.png';
+import {useTheme} from "../../../hooks/ThemeContext.jsx";
 
 
-const CategoryItem = ({itemId, items, name, thumb, updateTime, currentUpdateProcess, loadingWhileWaitingData}) => {
+const CategoryItem = ({itemId, items, name, thumb, updateTime, currentUpdateProcess, loadingWhileWaitingData, setDeleteCarModalData}) => {
   const dispatch = useDispatch();
+  const {theme} = useTheme();
 
   const getUpdate = (e) => {
     e.preventDefault();
     dispatch(pushingCarLoadingWhileWaiting(itemId));
     dispatch(sendStartUpdatingRequest({carId: itemId, carName: name}));
+  }
+
+  const clickTrashButton = (e) => {
+    e.preventDefault();
+    setDeleteCarModalData({itemId, name});
   }
 
   return (
@@ -42,6 +52,10 @@ const CategoryItem = ({itemId, items, name, thumb, updateTime, currentUpdateProc
           <div
             className={`${styles.spinnerWrapper} ${(currentUpdateProcess[itemId] === true || loadingWhileWaitingData.find(item => item === itemId)) ? styles.spinnerWrapperActive : ''}`}>
             <div className="loader"></div>
+          </div>
+          <div className={styles.deleteCarIcon} onClick={clickTrashButton}>
+            <img className={styles.deleteIcon} src={theme === 'dark' ? trashIconWhite : trashIconBlack}/>
+            <img className={styles.deleteIconActive} src={trashIconActive} alt=""/>
           </div>
         </div>
       </Link>

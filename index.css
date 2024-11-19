@@ -74,6 +74,9 @@ html[data-theme='light'] {
   --breadcrumbs-hover: #226bd3;
   --favorite-background-color: #d4e8d4;
   --popup-background-color: #4979e1;
+  --form-popup-side-wrapper: rgba(0, 0, 0, 0.5);
+  --modal-button: #226bd3;
+  --modal-button-hover: #3379dc;
 }
 
 html[data-theme='dark'] {
@@ -93,6 +96,9 @@ html[data-theme='dark'] {
   --breadcrumbs-hover: #769cff;
   --favorite-background-color: #445240;
   --popup-background-color: #4979e1;
+  --form-popup-side-wrapper: rgba(0, 0, 0, 0.67);
+  --modal-button: #4979e1;
+  --modal-button-hover: #5d87e3;
 }
 
 .mainBlockWrapper {

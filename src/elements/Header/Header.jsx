@@ -9,7 +9,6 @@ import {getToken, logout} from "../../store/loginSlice.js";
 
 const Header = () => {
   const dispatch = useDispatch();
-  /*const [theme, setTheme] = useTheme();*/
   const { theme, setTheme } = useTheme();
   const token = useSelector(getToken);
 

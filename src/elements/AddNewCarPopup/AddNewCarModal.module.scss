@@ -1,0 +1,120 @@
+.addCarModalWrapper{
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: var(--form-popup-side-wrapper);
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.addCarModalWrapperActive {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.addCarModalBlock{
+  position: relative;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  background-color: var(--header-background-color);
+  padding: 20px 20px 25px;
+  border-radius: 10px;
+  overflow: hidden;
+  max-width: 600px;
+
+  .addCarModalTitle {
+    width: 100%;
+    color: var(--text-color);
+    font-size: 25px;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .addCarModalText {
+    width: 100%;
+    text-align: center;
+    color: var(--text-color);
+    margin-bottom: 10px;
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  label {
+    display: block;
+    font-size: 15px;
+    font-weight: 400;
+    color: var(--text-color);
+    margin-bottom: 15px;
+    width: 100%;
+  }
+
+  input {
+    font-size: 25px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    width: 100%;
+  }
+
+  form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  button {
+    width: 100%;
+    max-width: 230px;
+    padding: 15px 20px;
+    margin-top: 10px;
+    font-size: 16px;
+    border-radius: 10px;
+    border: none;
+    background-color: var(--main-background-color);
+    color: var(--text-color);
+    transition: 0.5s all;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background-color: var(--button-active);
+  }
+
+  .redCarModalButton {
+    background-color: #e14949;
+  }
+
+  .errorBlock {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #e14949;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    color: white;
+    padding: 10px;
+    width: 100%;
+  }
+
+  .closeIcon {
+    position: absolute;
+    top: 25px;
+    right: 20px;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+}

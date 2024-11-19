@@ -4,6 +4,7 @@ import {carCategoryReducer} from "./carCategorySlice.js";
 import {loginReducer} from "./loginSlice.js";
 import {updateCarCategoryReducer} from "./updateCarDataSlice.js";
 import {popupReducer} from "./popupSlice.js";
+import {addNewCarReducer} from "./addNewCarSlice.js";
 
 const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ const store = configureStore({
     login: loginReducer,
     updateCarCategory: updateCarCategoryReducer,
     popup: popupReducer,
+    addNewCar: addNewCarReducer,
   },
   /*middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(loggerMiddleware),*/
 });
