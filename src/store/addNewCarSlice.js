@@ -1,7 +1,6 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import axios from "axios";
 import {UPDATE_URL} from "../globalPaths.js";
-import {getCategoryName} from "./userCategorySlice.js";
 
 const initialState = {
   isLoading: false,
@@ -51,7 +50,6 @@ export const sendRequestForCreateNewCar = createAsyncThunk(
     if (response.data.error) {
       return rejectWithValue(response.data.error);
     }
-    dispatch(getCategoryName());
     return response.data.payload;
   }
 );

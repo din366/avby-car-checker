@@ -15,13 +15,14 @@ const carCategorySlice = createSlice({
   reducers: {
     changeCategory: (state, action) => {
       state.showCategory = action.payload;
-    }
+    },
   },
   extraReducers: (builder) => {
     builder
       .addCase(getCarCategory.pending, (state) => {
         state.isLoading = true;
         state.isError = null;
+        state.data = null;
       })
       .addCase(getCarCategory.rejected, (state, action) => {
         state.isLoading = false;
@@ -165,7 +166,8 @@ export const carCategoryError = (state) => state.userCarCategory.isError;
 export const showCategory = (state) => state.userCarCategory.showCategory;
 
 export const {
-  changeCategory
+  changeCategory,
+  clearData
 } = carCategorySlice.actions;
 
 export const carCategoryReducer = carCategorySlice.reducer;

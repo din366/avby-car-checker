@@ -64,6 +64,10 @@
     width: 100%;
   }
 
+  input::placeholder {
+    color: rgba(0, 0, 0, 0.24)
+  }
+
   form {
     display: flex;
     flex-wrap: wrap;
@@ -78,18 +82,22 @@
     font-size: 16px;
     border-radius: 10px;
     border: none;
-    background-color: var(--main-background-color);
-    color: var(--text-color);
+    background-color: var(--modal-button);
+    color: white;
     transition: 0.5s all;
     cursor: pointer;
   }
 
   button:hover {
-    background-color: var(--button-active);
+    background-color: var(--modal-button-hover);
   }
 
   .redCarModalButton {
     background-color: #e14949;
+  }
+
+  .redCarModalButton:hover {
+    background-color: #f66464;
   }
 
   .errorBlock {

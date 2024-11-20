@@ -5,6 +5,16 @@
   margin-bottom: 20px;
 }
 
+.noCarTextBlock {
+  width: 100%;
+  min-height: calc(100vh - 200px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 22px;
+  color: var(--text-color);
+}
+
 .categoryHeaderWrapper {
   display: flex;
   justify-content: space-between;

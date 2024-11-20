@@ -11,7 +11,11 @@ const initialState = {
 const userCategorySlice = createSlice({
   name: "category",
   initialState,
-  reducers: {},
+  reducers: {
+    clearCategoriesDataBeforeLogout: (state) => {
+      state.categoriesData = null;
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getCategoryName.pending, (state) => {
@@ -35,7 +39,6 @@ export const getCategoryName = createAsyncThunk(
   async (_, {
     rejectWithValue, getState
   }) => {
-    /*const token = state.login.token;*/
     const state = getState();
     const token = state.login.token;
 
@@ -59,6 +62,7 @@ export const getCategoryName = createAsyncThunk(
 // * selectors
 
 export const categoriesData = state => state.userCategory.categoriesData;
+export const allUserCategoriesIsLoading = state => state.userCategory.isLoading;
 
 export const carIdAndName = createSelector( // ? for websocket and popup warnings
   [categoriesData],
@@ -72,5 +76,7 @@ export const carIdAndName = createSelector( // ? for websocket and popup warning
     return null;
   }
 )
+
+export const {clearCategoriesDataBeforeLogout} = userCategorySlice.actions;
 
 export const userCategoryReducer = userCategorySlice.reducer;
