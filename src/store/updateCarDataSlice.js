@@ -17,7 +17,7 @@ const updateCarDataSlice = createSlice({
       if (action.payload !== 'all') {
         return {
           ...state,
-          updating: {...state.updating, [action.payload]: true},
+          updating: {...state.updating, [action.payload.carId]: {token: action.payload.tokenOnlySymbols, status: true}},
           error: null,
         };
       }
@@ -26,14 +26,14 @@ const updateCarDataSlice = createSlice({
     updatingSuccessfully: (state, action) => {
       return {
         ...state,
-        updating: {...state.updating, [action.payload]: false},
+        updating: {...state.updating, [action.payload.carId]: {token: action.payload.tokenOnlySymbols, status: false}},
         error: null,
       };
     },
     updatingFailure: (state, action) => {
       return {
         ...state,
-        updating: {...state.updating, [action.payload]: false},
+        updating: {...state.updating, [action.payload.carId]: {token: action.payload.tokenOnlySymbols, status: false}},
         error: action.error,
       };
     },

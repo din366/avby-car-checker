@@ -1,13 +1,14 @@
 .popupWrapper{
-  position: fixed;
-  bottom: 40px;
+  position: relative;
+  /*bottom: 40px;*/
   right: -400px;
   padding: 15px 30px;
   background-color: var(--popup-background-color);
   color: #efefef;
-  transition: 0.5s all;
+  transition: 0.5s right;
   border-radius: 10px;
   z-index: 100;
+  margin-bottom: 20px;
 
   .popupText{
     font-size: 16px;

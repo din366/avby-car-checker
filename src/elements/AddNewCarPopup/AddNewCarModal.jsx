@@ -28,7 +28,7 @@ const AddNewCarModal = ({modalIsShow, setModalIsShow}) => {
       } else {
         await dispatch(sendRequestForCreateNewCar(values.url));
         if (Object.values(currentUpdating).length > 0 || loadingBeforeUpdating.length > 0) {
-          dispatch(getPopup({text: 'Добавление авто поставлено в очередь', delay: 3000}))
+          dispatch(getPopup({text: 'Добавление авто поставлено в очередь', delay: 5000}))
         }
         setModalIsShow(false);
       }

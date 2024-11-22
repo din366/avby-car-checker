@@ -3,7 +3,7 @@ import Header from "./elements/Header/Header.jsx";
 import {ThemeProvider} from "./hooks/ThemeContext.jsx";
 import {useInitialization} from "./features/useInitialization.js";
 import {useSocket} from "./hooks/useSocket.js";
-import Popup from "./elements/Popup/Popup.jsx";
+import PopupWrapper from './elements/PopupWrapper/PopupWrapper.jsx';
 
 export const App = () => {
   useInitialization();
@@ -15,7 +15,7 @@ export const App = () => {
         <Header />
         <MainWrapper/>
         {/*<Footer />*/}
-        <Popup />
+        <PopupWrapper />
       </ThemeProvider>
     </>
   )

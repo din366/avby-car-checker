@@ -23,6 +23,9 @@ const AllUserCategories = () => {
   const loadingWhileWaitingData = useSelector(loadingWhileWaiting);
   const [modalIsShow, setModalIsShow] = useState(false);
   const [deleteCarModalData, setDeleteCarModalData] = useState(false);
+
+  console.log(categories)
+  const findLoadingNewCarData = Object.entries(currentUpdateProcess).find(item => item[0].split('-')[0] === 'add' && item[1].status === true);
   useEffect(() => {
     if (token) {
       dispatch(getCategoryName());
@@ -48,11 +51,14 @@ const AllUserCategories = () => {
                 onClick={() => {setModalIsShow(true)}}
                 disabled={isLoading}
               >Добавить авто</button>
-              <button
-                disabled={carsUpdatingStatus.find(item => item === true) || loadingWhileWaitingData.length || categories?.length === 0}
+              {categories?.length > 1 ? <button
+                disabled={carsUpdatingStatus.find(item => item?.status === true) || loadingWhileWaitingData.length || categories?.length === 0}
                 className={styles.updateAllButton}
-                onClick={(e) => {startAllCarsUpdate(e)}}
-              >Обновить все</button>
+                onClick={(e) => {
+                  startAllCarsUpdate(e)
+                }}
+              >Обновить все</button> : ''}
+
             </div>
           </div>
           {categories && categories.length ?
@@ -70,9 +76,9 @@ const AllUserCategories = () => {
                   setDeleteCarModalData={setDeleteCarModalData}
                 />
               ))}
-              {Object.entries(currentUpdateProcess).find(item => item[0] === 'add' && item[1] === true) ?
+              {findLoadingNewCarData?.[1].token === token ?
                 <CategoryItem
-                  key='add'
+                  key={findLoadingNewCarData?.[0]}
                   itemId={null}
                   thumb={null}
                   name={null}
@@ -82,15 +88,28 @@ const AllUserCategories = () => {
                   loadingWhileWaitingData={loadingWhileWaitingData}
                 /> : ''
               }
-            </div> :
-            <div className={styles.noCarTextBlock}>Добавьте новое авто для мониторинга</div>
-          }
+            </div> : (!categories?.length && findLoadingNewCarData?.[1].token === token) ? // if current car list item is null
+              <div className={styles.carCateroryWrapper}>
+                <CategoryItem
+                  key={findLoadingNewCarData?.[0]}
+                  itemId={null}
+                  thumb={null}
+                  name={null}
+                  items={null}
+                  updateTime={null}
+                  currentUpdateProcess={currentUpdateProcess}
+                  loadingWhileWaitingData={loadingWhileWaitingData}
+                />
+              </div>
+                :
+                <div className={styles.noCarTextBlock}>Добавьте новое авто для мониторинга</div>
+                }
 
-        </div>
-      </div>
+              </div>
+            </div>
 
-      <AddNewCarModal modalIsShow={modalIsShow} setModalIsShow={setModalIsShow}/>
-      <DeleteCarModal
+            <AddNewCarModal modalIsShow={modalIsShow} setModalIsShow={setModalIsShow}/>
+            <DeleteCarModal
         deleteCarModalData={deleteCarModalData}
         setDeleteCarModalData={setDeleteCarModalData}
       />

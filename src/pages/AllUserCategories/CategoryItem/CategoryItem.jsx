@@ -41,7 +41,7 @@ const CategoryItem = ({itemId, items, name, thumb, updateTime, currentUpdateProc
           </div>
           {itemId ? <>
             <button
-              disabled={currentUpdateProcess[itemId] === true || loadingWhileWaitingData.find(item => item === itemId)}
+              disabled={currentUpdateProcess[itemId]?.status === true || loadingWhileWaitingData.find(item => item === itemId)}
               className={styles.updateButton}
               onClick={(e) => {
                 getUpdate(e)
@@ -60,7 +60,7 @@ const CategoryItem = ({itemId, items, name, thumb, updateTime, currentUpdateProc
 
 
           <div
-            className={`${styles.spinnerWrapper} ${(currentUpdateProcess[itemId] === true || loadingWhileWaitingData.find(item => item === itemId)) ? styles.spinnerWrapperActive : ''}`}>
+            className={`${styles.spinnerWrapper} ${(currentUpdateProcess[itemId]?.status === true || loadingWhileWaitingData.find(item => item === itemId)) ? styles.spinnerWrapperActive : ''}`}>
             <div className="loader"></div>
           </div>
 

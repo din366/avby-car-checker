@@ -46,6 +46,7 @@
 
 .categoryNavigationWrapper {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: auto auto;
+  grid-auto-flow: row;
   grid-gap: 10px;
 }

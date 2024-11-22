@@ -16,7 +16,7 @@ const DeleteCarModal = ({deleteCarModalData, setDeleteCarModalData}) => {
       setDeleteCarModalData(null);
     } else {
       setDeleteCarModalData(null);
-      dispatch(getPopup({text: `Ошибка при удалении ${deleteCarModalData.name}`, delay: 3000, type: 'alert'}))
+      dispatch(getPopup({text: `Ошибка при удалении ${deleteCarModalData.name}`, delay: 5000, type: 'alert'}))
     }
 
   }

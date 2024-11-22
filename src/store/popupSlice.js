@@ -1,55 +1,55 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 
 const initialState = {
-  text: '',
-  isShow: false,
-  delay: 1000,
-  type: 'normal'
+  queue: []
 }
 
 const popupSlice = createSlice({
   name: 'popup',
   initialState,
   reducers: {
-    showPopup: (state, action) => {
-      state.text = action.payload.text;
-      state.isShow = true;
-      state.delay = action.payload.delay;
-      state.type = action.payload.type;
+    pushPopupToQueue (state, action) {
+      state.queue.push(action.payload);
     },
-    hidePopup: (state) => {
-      state.isShow = false;
-      state.delay = 1000;
-      state.type = 'normal';
+    deletePopupToQueue (state, action) {
+      const newQueue = state.queue.filter(item => item.id !== action.payload);
+      state.queue = newQueue.length === 0 ? [] : newQueue;
     },
-    clearInfoText: (state) => {
-      state.text = '';
+    setVisiblePopupInQueue(state, action) {
+      state.queue = state.queue.map(item => item.id === action.payload.id ? {...item, visible: action.payload.visible } : item);
     }
   }
 });
+
+
 
 export const getPopup = createAsyncThunk(
   'getPopup',
   ({text, delay, type = 'normal'}, {
     dispatch
   }) => {
-    dispatch(showPopup({text, delay, type}));
+    const timestamp = Date.now();
+    dispatch(pushPopupToQueue({id: timestamp, text, type, visible: false}));
+
     setTimeout(() => {
-      dispatch(hidePopup());
-    }, delay);
+      dispatch(setVisiblePopupInQueue({id: timestamp, visible: true}))
+    }, 100);
+
     setTimeout(() => {
-      dispatch(clearInfoText())
-    }, delay + 500)
+      dispatch(setVisiblePopupInQueue({id: timestamp, visible: false}))
+    }, delay - 500);
+
+    setTimeout(() => {
+      dispatch(deletePopupToQueue(timestamp));
+    }, delay)
   }
 )
 
-export const popupText = state => state.popup.text;
-export const popupIsShow = state => state.popup.isShow;
-export const popupType = state => state.popup.type;
+export const popupsQueue = state => state.popup.queue;
 
 export const {
-  showPopup,
-  hidePopup,
-  clearInfoText
+  pushPopupToQueue,
+  deletePopupToQueue,
+  setVisiblePopupInQueue
 } = popupSlice.actions;
 export const popupReducer = popupSlice.reducer;
