@@ -7,6 +7,13 @@ import {popupReducer} from "./popupSlice.js";
 import {addNewCarReducer} from "./addNewCarSlice.js";
 import {deleteCarReducer} from "./deleteCarSlice.js";
 
+/*const loggerMiddleware = store => next => action => {
+  console.log('dispatching', action);
+  let result = next(action);
+  console.log('next state', store.getState());
+  return result;
+};*/
+
 const store = configureStore({
   reducer: {
     userCategory: userCategoryReducer,
@@ -22,11 +29,4 @@ const store = configureStore({
 
 export default store;
 
-/*
-const loggerMiddleware = store => next => action => {
-  console.log('dispatching', action);
-  let result = next(action);
-  console.log('next state', store.getState());
-  return result;
-};
-*/
+

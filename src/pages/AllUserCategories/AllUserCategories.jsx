@@ -6,12 +6,14 @@ import CategoryItem from "./CategoryItem/CategoryItem.jsx";
 import {useLogged} from "../../features/useLogged.js";
 import {getToken} from "../../store/loginSlice.js";
 import {
-  currentUpdate, loadingWhileWaiting,
+  currentUpdate, currentUpdateAllStatusArray, loadingWhileWaiting,
   pushingCarLoadingWhileWaiting,
-  sendStartUpdatingRequest
+  sendStartUpdatingRequest,
 } from "../../store/updateCarDataSlice.js";
 import AddNewCarModal from "../../elements/AddNewCarPopup/AddNewCarModal.jsx";
 import DeleteCarModal from "../../elements/DeleteCarModal/DeleteCarModal.jsx";
+
+
 const AllUserCategories = () => {
   useLogged();
   const token = useSelector(getToken);
@@ -19,18 +21,19 @@ const AllUserCategories = () => {
   const categories = useSelector(categoriesData);
   const isLoading = useSelector(allUserCategoriesIsLoading);
   const currentUpdateProcess = useSelector(currentUpdate);
+  const currentUpdatingStatus = useSelector(currentUpdateAllStatusArray);
+
   const carsUpdatingStatus = Object.values(currentUpdateProcess);
   const loadingWhileWaitingData = useSelector(loadingWhileWaiting);
   const [modalIsShow, setModalIsShow] = useState(false);
   const [deleteCarModalData, setDeleteCarModalData] = useState(false);
+  const findLoadingNewCarData = Object.entries(currentUpdateProcess).find(item => item[0].split('-')[0] === 'add' && item[1].status === 'process');
 
-  console.log(categories)
-  const findLoadingNewCarData = Object.entries(currentUpdateProcess).find(item => item[0].split('-')[0] === 'add' && item[1].status === true);
   useEffect(() => {
     if (token) {
       dispatch(getCategoryName());
     }
-  }, [dispatch, token, categories?.length, currentUpdateProcess]);
+  }, [dispatch, token, categories?.length, currentUpdatingStatus]);
 
   const startAllCarsUpdate = (e) => {
     e.preventDefault();
@@ -40,7 +43,6 @@ const AllUserCategories = () => {
 
   return (
     <div>
-
       <div className='mainBlockWrapper'>
         <div className="container">
           <div className={styles.categoryHeaderWrapper}>
@@ -52,7 +54,7 @@ const AllUserCategories = () => {
                 disabled={isLoading}
               >Добавить авто</button>
               {categories?.length > 1 ? <button
-                disabled={carsUpdatingStatus.find(item => item?.status === true) || loadingWhileWaitingData.length || categories?.length === 0}
+                disabled={carsUpdatingStatus.find(item => item?.status === 'process') || loadingWhileWaitingData.length || categories?.length === 0}
                 className={styles.updateAllButton}
                 onClick={(e) => {
                   startAllCarsUpdate(e)
@@ -109,10 +111,7 @@ const AllUserCategories = () => {
             </div>
 
             <AddNewCarModal modalIsShow={modalIsShow} setModalIsShow={setModalIsShow}/>
-            <DeleteCarModal
-        deleteCarModalData={deleteCarModalData}
-        setDeleteCarModalData={setDeleteCarModalData}
-      />
+            <DeleteCarModal deleteCarModalData={deleteCarModalData} setDeleteCarModalData={setDeleteCarModalData}/>
     </div>
   );
 };

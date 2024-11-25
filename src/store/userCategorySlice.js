@@ -37,16 +37,17 @@ const userCategorySlice = createSlice({
 export const getCategoryName = createAsyncThunk(
   'category/getCategoryName',
   async (_, {
-    rejectWithValue, getState
+    rejectWithValue, getState, dispatch
   }) => {
     const state = getState();
     const token = state.login.token;
-
+    const socketId = state.login.socketId;
     try {
       const response = await axios.get(USER_CATEGORY, {
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
+          'Authorization': `Bearer ${token}`,
+          'socketId': socketId,
         }
       });
       if (response.data.error) {
@@ -54,6 +55,7 @@ export const getCategoryName = createAsyncThunk(
       }
       return response.data.payload;
     } catch (err) {
+      console.log(err);
       return rejectWithValue(err.message);
     }
   }

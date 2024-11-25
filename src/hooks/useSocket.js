@@ -1,5 +1,5 @@
 import {io} from "socket.io-client";
-import {useCallback, useEffect} from "react";
+import {useCallback, useEffect, useRef} from "react";
 import {
   clearUpdatingCount, deleteCarLoadingWhileWaiting,
   setUpdatingCount,
@@ -13,6 +13,7 @@ import {carIdAndName} from "../store/userCategorySlice.js";
 import {getPopup} from "../store/popupSlice.js";
 
 const socket = io('http://localhost:3001')
+
 export const useSocket = () => {
   const dispatch = useDispatch();
   const categoryNames = useSelector(carIdAndName);
@@ -27,19 +28,23 @@ export const useSocket = () => {
       )
     )
   }
-  const handleUpdateStatus = useCallback(({carId, status, tokenOnlySymbols}) => {
+  const handleUpdateStatus = useCallback(({carId, status, token}) => {
     if (status === 'process') {
       getPopupFunc(carId, 5000);
-      dispatch(startUpdating({carId, tokenOnlySymbols}));
+      dispatch(startUpdating({carId, token, status}));
     } else if (status === 'success') {
       getPopupFunc(carId, 5000, true);
-      dispatch(updatingSuccessfully({carId, tokenOnlySymbols}));
+      dispatch(updatingSuccessfully({carId, token, status}));
       setTimeout(() => {
         dispatch(clearUpdatingCount());
       }, 2000);
     } else {
-      dispatch(getPopup({text: `Ошибка обновления для ${(categoryNames && categoryNames[carId]) ? categoryNames[carId] : 'авто'}`, delay: 5000, type: 'alert'}))
-      dispatch(updatingFailure({carId, tokenOnlySymbols}));
+      dispatch(getPopup({
+        text: `Ошибка обновления для ${(categoryNames && categoryNames[carId]) ? categoryNames[carId] : 'авто'}`,
+        delay: 5000,
+        type: 'alert'
+      }))
+      dispatch(updatingFailure({carId, token, status}));
       setTimeout(() => {
         dispatch(clearUpdatingCount());
       }, 2000);
@@ -49,13 +54,16 @@ export const useSocket = () => {
 
   const handleUpdateCount = useCallback(({carId, countStatus, carsCount}) => {
     dispatch(setUpdatingCount({carId, countStatus, carsCount}))
-  })
+  });
 
   useEffect(() => {
     socket.on('updateStatus', handleUpdateStatus);
-    socket.on('updateCount', handleUpdateCount)
+    socket.on('updateCount', handleUpdateCount);
     dispatch(setSocketId(socket.id));
 
-    return () => { socket.off('updateStatus', handleUpdateStatus); socket.off('updateCount', handleUpdateCount); };
+    return () => {
+      socket.off('updateStatus', handleUpdateStatus);
+      socket.off('updateCount', handleUpdateCount);
+    };
   }, [dispatch, handleUpdateStatus, handleUpdateCount]);
 }

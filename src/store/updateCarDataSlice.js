@@ -1,4 +1,4 @@
-import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSelector, createSlice} from "@reduxjs/toolkit";
 import axios from "axios";
 import {UPDATE_URL} from "../globalPaths.js";
 
@@ -17,7 +17,7 @@ const updateCarDataSlice = createSlice({
       if (action.payload !== 'all') {
         return {
           ...state,
-          updating: {...state.updating, [action.payload.carId]: {token: action.payload.tokenOnlySymbols, status: true}},
+          updating: {...state.updating, [action.payload.carId]: {token: action.payload.token, status: action.payload.status}},
           error: null,
         };
       }
@@ -26,14 +26,14 @@ const updateCarDataSlice = createSlice({
     updatingSuccessfully: (state, action) => {
       return {
         ...state,
-        updating: {...state.updating, [action.payload.carId]: {token: action.payload.tokenOnlySymbols, status: false}},
+        updating: {...state.updating, [action.payload.carId]: {token: action.payload.token, status: action.payload.status}},
         error: null,
       };
     },
     updatingFailure: (state, action) => {
       return {
         ...state,
-        updating: {...state.updating, [action.payload.carId]: {token: action.payload.tokenOnlySymbols, status: false}},
+        updating: {...state.updating, [action.payload.carId]: {token: action.payload.token, status: action.payload.status}},
         error: action.error,
       };
     },
@@ -103,11 +103,17 @@ export const {
   pushingCarLoadingWhileWaiting,
   deleteCarLoadingWhileWaiting,
   setUpdatingCount,
-  clearUpdatingCount
+  clearUpdatingCount,
 } = updateCarDataSlice.actions;
 
 export const updateCarCategoryReducer = updateCarDataSlice.reducer;
 
 export const currentUpdate = state => state.updateCarCategory.updating;
+
+export const currentUpdateAllStatusArray = createSelector([currentUpdate],
+  (currentUpdate) => {
+    return Object.values(currentUpdate).length ? Object.values(currentUpdate).map(item => item.status): null;
+  }
+)
 export const loadingWhileWaiting = state => state.updateCarCategory.loadingWhileWaiting;
 export const getUpdatingCount = state => state.updateCarCategory.updatingCount;
