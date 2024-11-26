@@ -37,7 +37,7 @@ const CarCategory = () => {
     if (token && categoryId) {
       dispatch(getCarCategory(categoryId));
     }
-  }, [currentUpdateProcess])
+  }, [currentUpdateProcess[categoryId]]) // ? We update only if the data in the open category is updated
 
   return (
     <>

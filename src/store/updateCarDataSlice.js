@@ -17,7 +17,7 @@ const updateCarDataSlice = createSlice({
       if (action.payload !== 'all') {
         return {
           ...state,
-          updating: {...state.updating, [action.payload.carId]: {token: action.payload.token, status: action.payload.status}},
+          updating: {...state.updating, [action.payload.carId]: {status: action.payload.status}},
           error: null,
         };
       }
@@ -26,14 +26,14 @@ const updateCarDataSlice = createSlice({
     updatingSuccessfully: (state, action) => {
       return {
         ...state,
-        updating: {...state.updating, [action.payload.carId]: {token: action.payload.token, status: action.payload.status}},
+        updating: {...state.updating, [action.payload.carId]: {status: action.payload.status}},
         error: null,
       };
     },
     updatingFailure: (state, action) => {
       return {
         ...state,
-        updating: {...state.updating, [action.payload.carId]: {token: action.payload.token, status: action.payload.status}},
+        updating: {...state.updating, [action.payload.carId]: {status: action.payload.status}},
         error: action.error,
       };
     },
@@ -112,7 +112,7 @@ export const currentUpdate = state => state.updateCarCategory.updating;
 
 export const currentUpdateAllStatusArray = createSelector([currentUpdate],
   (currentUpdate) => {
-    return Object.values(currentUpdate).length ? Object.values(currentUpdate).map(item => item.status): null;
+    return Object.values(currentUpdate).length ? Object.values(currentUpdate).map(item => item.status) : null;
   }
 )
 export const loadingWhileWaiting = state => state.updateCarCategory.loadingWhileWaiting;

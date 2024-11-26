@@ -28,13 +28,13 @@ export const useSocket = () => {
       )
     )
   }
-  const handleUpdateStatus = useCallback(({carId, status, token}) => {
+  const handleUpdateStatus = useCallback(({carId, status}) => {
     if (status === 'process') {
       getPopupFunc(carId, 5000);
-      dispatch(startUpdating({carId, token, status}));
+      dispatch(startUpdating({carId, status}));
     } else if (status === 'success') {
       getPopupFunc(carId, 5000, true);
-      dispatch(updatingSuccessfully({carId, token, status}));
+      dispatch(updatingSuccessfully({carId, status}));
       setTimeout(() => {
         dispatch(clearUpdatingCount());
       }, 2000);
@@ -44,7 +44,7 @@ export const useSocket = () => {
         delay: 5000,
         type: 'alert'
       }))
-      dispatch(updatingFailure({carId, token, status}));
+      dispatch(updatingFailure({carId, status}));
       setTimeout(() => {
         dispatch(clearUpdatingCount());
       }, 2000);
