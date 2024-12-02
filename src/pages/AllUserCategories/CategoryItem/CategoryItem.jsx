@@ -22,14 +22,13 @@ const CategoryItem = ({itemId, items, name, thumb, updateTime, currentUpdateProc
     e.preventDefault();
     setDeleteCarModalData({itemId, name});
   }
-
+  console.log(!thumb)
   return (
     <div>
       <Link to={`/categories/${itemId}`}>
         <div className={styles.carCategory}>
           <div className={styles.carCategoryImageWrapper}>
-
-            <img className={styles.carCategoryImage} src={thumb || carIconPlaceholder} alt=""/>
+            <img className={`${styles.carCategoryImage} ${!thumb ? styles.carCategoryImageThumb : ''}`} src={thumb || carIconPlaceholder} alt=""/>
           </div>
           <div className={styles.carCategoryText}>
             <span className={styles.carCategoryTitle}>{name ? `Авто: ${name}` : 'Загрузка данных об авто'}</span>

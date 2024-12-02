@@ -21,7 +21,14 @@ const AllUserCategories = () => {
 
   const [modalIsShow, setModalIsShow] = useState(false);
   const [deleteCarModalData, setDeleteCarModalData] = useState(false);
-  const loadingNewCarDataIsTrue = currentUpdateProcess?.carId.split('-')[0] === 'add' && currentUpdateProcess.status === 'process';
+  const loadingNewCarDataIsTrue = () => {
+    if (currentUpdateProcess?.carId.split('-')[0] === 'add' && currentUpdateProcess.status === 'process') { // ? new car update in current task
+      return true;
+    } else if (currentQueueData.find(item => item.split('-')[0] === 'add')) { // ? new car update in queue
+      return true;
+    }
+    return false;
+  }
 
   useEffect(() => {
     if (token) {
@@ -70,7 +77,7 @@ const AllUserCategories = () => {
                   setDeleteCarModalData={setDeleteCarModalData}
                 />
               ))}
-              {loadingNewCarDataIsTrue ?
+              {loadingNewCarDataIsTrue() ?
                 <CategoryItem
                   key={currentUpdateProcess?.carId}
                   itemId={null}
@@ -81,7 +88,7 @@ const AllUserCategories = () => {
                   currentUpdateProcess={currentUpdateProcess}
                 /> : ''
               }
-            </div> : (!categories?.length && loadingNewCarDataIsTrue) ? // if current car list item is null
+            </div> : (!categories?.length && loadingNewCarDataIsTrue()) ? // if current car list item is null
               <div className={styles.carCateroryWrapper}>
                 <CategoryItem
                   key={currentUpdateProcess?.carId}
