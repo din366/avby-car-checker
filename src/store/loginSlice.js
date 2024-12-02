@@ -5,6 +5,7 @@ import {clearCategoriesDataBeforeLogout} from "./userCategorySlice.js";
 
 const initialState = {
   token: null,
+  userName: null,
   loading: false,
   error: null,
   socketId: null,
@@ -22,6 +23,12 @@ const loginSlice = createSlice({
     },
     setSocketId: (state, action) => {
       state.socketId = action.payload;
+    },
+    setUserName: (state, action) => {
+      state.userName = action.payload;
+    },
+    clearUserName: (state) => {
+      state.userName = null;
     }
   },
   extraReducers: (builder) => {
@@ -38,6 +45,7 @@ const loginSlice = createSlice({
         state.loading = false;
         state.error = null;
         state.token = action.payload?.token;
+        state.userName = action.payload?.username;
       })
   }
 })
@@ -53,6 +61,7 @@ export const sendLoginRequest = createAsyncThunk(
         return rejectWithValue(response.data.error);
       }
       localStorage.setItem('token', response.data.payload.token); // ? set token to localStorage
+      localStorage.setItem('username', response.data.payload.username); // ? set username for websocket rooms
       return response.data.payload
     }).catch(error => rejectWithValue(error.message));
   }
@@ -60,19 +69,24 @@ export const sendLoginRequest = createAsyncThunk(
 
 export const logout = createAsyncThunk('login/logout', (payload, { dispatch }) => {
   dispatch(clearToken());
+  dispatch(clearUserName());
   dispatch(clearCategoriesDataBeforeLogout());
   localStorage.removeItem('token');
+  localStorage.removeItem('username');
 })
 
 export const getLoading = (state) => state.login.loading;
 export const getErrorData = (state) => state.login.error;
 export const getToken = (state) => state.login.token;
 export const getSocketId = (state) => state.login.socketId;
+export const getUserName = (state) => state.login.userName;
 
 export const {
   clearToken,
   setToken,
-  setSocketId
+  setSocketId,
+  setUserName,
+  clearUserName
 } = loginSlice.actions;
 
 export const loginReducer = loginSlice.reducer;

@@ -1,10 +1,7 @@
 import styles from "./CategoryItem.module.scss";
 import {Link} from "react-router-dom";
-import {useDispatch} from "react-redux";
-import {
-  pushingCarLoadingWhileWaiting,
-  sendStartUpdatingRequest
-} from "../../../store/updateCarDataSlice.js";
+import {useDispatch, useSelector} from "react-redux";
+import {currentQueue, sendStartUpdatingRequest} from "../../../store/updateCarDataSlice.js";
 import ProgressBarComponent from "./ProgressBar/ProgressBarComponent.jsx";
 import trashIconBlack from './../../../assets/trash-icon/trash-icon-black.png';
 import trashIconWhite from './../../../assets/trash-icon/trash-icon-white.png';
@@ -12,12 +9,12 @@ import trashIconActive from './../../../assets/trash-icon/trash-icon-active.png'
 import carIconPlaceholder from './../../../assets/carPlaceholder.png';
 import {useTheme} from "../../../hooks/ThemeContext.jsx";
 
-const CategoryItem = ({itemId, items, name, thumb, updateTime, currentUpdateProcess, loadingWhileWaitingData, setDeleteCarModalData}) => {
+const CategoryItem = ({itemId, items, name, thumb, updateTime, currentUpdateProcess, setDeleteCarModalData}) => {
   const dispatch = useDispatch();
+  const currentUserQueue = useSelector(currentQueue)
   const {theme} = useTheme();
   const getUpdate = (e) => {
     e.preventDefault();
-    dispatch(pushingCarLoadingWhileWaiting(itemId));
     dispatch(sendStartUpdatingRequest({carId: itemId, carName: name}));
   }
 
@@ -41,7 +38,7 @@ const CategoryItem = ({itemId, items, name, thumb, updateTime, currentUpdateProc
           </div>
           {itemId ? <>
             <button
-              disabled={currentUpdateProcess[itemId]?.status === 'process' || loadingWhileWaitingData.find(item => item === itemId)}
+              disabled={currentUpdateProcess?.carId === itemId || currentUserQueue?.find(item => item === itemId)}
               className={styles.updateButton}
               onClick={(e) => {
                 getUpdate(e)
@@ -60,7 +57,7 @@ const CategoryItem = ({itemId, items, name, thumb, updateTime, currentUpdateProc
 
 
           <div
-            className={`${styles.spinnerWrapper} ${(currentUpdateProcess[itemId]?.status === 'process' || loadingWhileWaitingData.find(item => item === itemId)) ? styles.spinnerWrapperActive : ''}`}>
+            className={`${styles.spinnerWrapper} ${(currentUpdateProcess?.carId === itemId || currentUserQueue.find(item => item === itemId)) ? styles.spinnerWrapperActive : ''}`}>
             <div className="loader"></div>
           </div>
 

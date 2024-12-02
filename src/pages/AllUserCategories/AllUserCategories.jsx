@@ -5,11 +5,7 @@ import {allUserCategoriesIsLoading, categoriesData, getCategoryName} from "../..
 import CategoryItem from "./CategoryItem/CategoryItem.jsx";
 import {useLogged} from "../../features/useLogged.js";
 import {getToken} from "../../store/loginSlice.js";
-import {
-  currentUpdate, currentUpdateAllStatusArray, loadingWhileWaiting,
-  pushingCarLoadingWhileWaiting,
-  sendStartUpdatingRequest,
-} from "../../store/updateCarDataSlice.js";
+import {currentQueue, currentUpdate, sendStartUpdatingRequest} from "../../store/updateCarDataSlice.js";
 import AddNewCarModal from "../../elements/AddNewCarPopup/AddNewCarModal.jsx";
 import DeleteCarModal from "../../elements/DeleteCarModal/DeleteCarModal.jsx";
 
@@ -21,24 +17,21 @@ const AllUserCategories = () => {
   const categories = useSelector(categoriesData);
   const isLoading = useSelector(allUserCategoriesIsLoading);
   const currentUpdateProcess = useSelector(currentUpdate);
-  const currentUpdatingStatus = useSelector(currentUpdateAllStatusArray);
+  const currentQueueData = useSelector(currentQueue);
 
-  const carsUpdatingStatus = Object.values(currentUpdateProcess);
-  const loadingWhileWaitingData = useSelector(loadingWhileWaiting);
   const [modalIsShow, setModalIsShow] = useState(false);
   const [deleteCarModalData, setDeleteCarModalData] = useState(false);
-  const findLoadingNewCarData = Object.entries(currentUpdateProcess).find(item => item[0].split('-')[0] === 'add' && item[1].status === 'process');
+  const loadingNewCarDataIsTrue = currentUpdateProcess?.carId.split('-')[0] === 'add' && currentUpdateProcess.status === 'process';
 
   useEffect(() => {
     if (token) {
       dispatch(getCategoryName());
     }
-  }, [dispatch, token, categories?.length, currentUpdatingStatus]);
+  }, [dispatch, token, categories?.length, /*currentUpdateProcess?.length*/]); // ! пока что не обновляются данные после обновления авто
 
   const startAllCarsUpdate = (e) => {
     e.preventDefault();
     dispatch(sendStartUpdatingRequest({carId: 'all'}));
-    categories.map(item => dispatch(pushingCarLoadingWhileWaiting(item.itemId)));
   }
 
   return (
@@ -54,7 +47,7 @@ const AllUserCategories = () => {
                 disabled={isLoading}
               >Добавить авто</button>
               {categories?.length > 1 ? <button
-                disabled={carsUpdatingStatus.find(item => item?.status === 'process') || loadingWhileWaitingData.length || categories?.length === 0}
+                disabled={currentUpdateProcess?.status === 'process' || currentQueueData.length || categories?.length === 0}
                 className={styles.updateAllButton}
                 onClick={(e) => {
                   startAllCarsUpdate(e)
@@ -74,33 +67,30 @@ const AllUserCategories = () => {
                   items={category.items}
                   updateTime={category.updateTime}
                   currentUpdateProcess={currentUpdateProcess}
-                  loadingWhileWaitingData={loadingWhileWaitingData}
                   setDeleteCarModalData={setDeleteCarModalData}
                 />
               ))}
-              {findLoadingNewCarData?.[1].token === token ?
+              {loadingNewCarDataIsTrue ?
                 <CategoryItem
-                  key={findLoadingNewCarData?.[0]}
+                  key={currentUpdateProcess?.carId}
                   itemId={null}
                   thumb={null}
                   name={null}
                   items={null}
                   updateTime={null}
                   currentUpdateProcess={currentUpdateProcess}
-                  loadingWhileWaitingData={loadingWhileWaitingData}
                 /> : ''
               }
-            </div> : (!categories?.length && findLoadingNewCarData?.[1].token === token) ? // if current car list item is null
+            </div> : (!categories?.length && loadingNewCarDataIsTrue) ? // if current car list item is null
               <div className={styles.carCateroryWrapper}>
                 <CategoryItem
-                  key={findLoadingNewCarData?.[0]}
+                  key={currentUpdateProcess?.carId}
                   itemId={null}
                   thumb={null}
                   name={null}
                   items={null}
                   updateTime={null}
                   currentUpdateProcess={currentUpdateProcess}
-                  loadingWhileWaitingData={loadingWhileWaitingData}
                 />
               </div>
                 :

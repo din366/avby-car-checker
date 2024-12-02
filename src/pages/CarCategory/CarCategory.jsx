@@ -34,10 +34,10 @@ const CarCategory = () => {
   }, [dispatch, token]);
 
   useEffect(() => { // ? when the data update occurred, but the user is in the auto category
-    if (token && categoryId) {
+    if (token && currentUpdateProcess?.carId === categoryId) {
       dispatch(getCarCategory(categoryId));
     }
-  }, [currentUpdateProcess[categoryId]]) // ? We update only if the data in the open category is updated
+  }, [currentUpdateProcess?.carId]) // ? We update only if the data in the open category is updated
 
   return (
     <>

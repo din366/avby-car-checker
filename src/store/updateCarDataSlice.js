@@ -1,11 +1,12 @@
-import {createAsyncThunk, createSelector, createSlice} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import axios from "axios";
 import {UPDATE_URL} from "../globalPaths.js";
 
 const initialState = {
-  updating: {},
+  updating: null,
   updatingCount: '0',
-  loadingWhileWaiting: [],
+  currentQueue: [],
+  allUsersQueueLength: 0,
   error: null,
 }
 
@@ -13,44 +14,34 @@ const updateCarDataSlice = createSlice({
   name: "updateCarCategory",
   initialState,
   reducers: {
-    startUpdating: (state, action) => {
-      if (action.payload !== 'all') {
-        return {
-          ...state,
-          updating: {...state.updating, [action.payload.carId]: {status: action.payload.status}},
-          error: null,
-        };
-      }
-      return state;
-    },
-    updatingSuccessfully: (state, action) => {
+    updateQueue: (state, action) => {
       return {
         ...state,
-        updating: {...state.updating, [action.payload.carId]: {status: action.payload.status}},
+        currentQueue: action.payload,
+      }
+
+    },
+    getAllQueueLengthForAllUsers: (state, action) => {
+      return {
+        ...state,
+        allUsersQueueLength: action.payload,
+      }
+    },
+    setActiveTask: (state, action) => {
+      return {
+        ...state,
+        updating: {
+          carId: action.payload.carId,
+          status: action.payload.status
+        },
         error: null,
       };
     },
-    updatingFailure: (state, action) => {
+    clearActiveTask: (state) => {
       return {
         ...state,
-        updating: {...state.updating, [action.payload.carId]: {status: action.payload.status}},
-        error: action.error,
-      };
-    },
-    pushingCarLoadingWhileWaiting: (state, action) => {
-      return {
-        ...state,
-        loadingWhileWaiting: [
-          ...state.loadingWhileWaiting, action.payload
-        ]
-      }
-    },
-    deleteCarLoadingWhileWaiting: (state, action) => {
-      return {
-        ...state,
-        loadingWhileWaiting: [
-          ...state.loadingWhileWaiting.filter(item => item !== action.payload)
-        ]
+        updating: null,
+        error: null,
       }
     },
     setUpdatingCount: (state, action) => {
@@ -97,23 +88,18 @@ export const sendStartUpdatingRequest = createAsyncThunk(
 )
 
 export const {
-  startUpdating,
-  updatingFailure,
-  updatingSuccessfully,
-  pushingCarLoadingWhileWaiting,
-  deleteCarLoadingWhileWaiting,
   setUpdatingCount,
   clearUpdatingCount,
+  updateQueue,
+  getAllQueueLengthForAllUsers,
+  setActiveTask,
+  clearActiveTask
 } = updateCarDataSlice.actions;
 
 export const updateCarCategoryReducer = updateCarDataSlice.reducer;
 
 export const currentUpdate = state => state.updateCarCategory.updating;
 
-export const currentUpdateAllStatusArray = createSelector([currentUpdate],
-  (currentUpdate) => {
-    return Object.values(currentUpdate).length ? Object.values(currentUpdate).map(item => item.status) : null;
-  }
-)
-export const loadingWhileWaiting = state => state.updateCarCategory.loadingWhileWaiting;
+export const currentQueue = state => state.updateCarCategory.currentQueue;
+export const allUsersQueueLength = state => state.updateCarCategory.allUsersQueueLength;
 export const getUpdatingCount = state => state.updateCarCategory.updatingCount;

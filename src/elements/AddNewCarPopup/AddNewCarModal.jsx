@@ -6,7 +6,7 @@ import {useDispatch, useSelector} from "react-redux";
 import blackCloseIcon from './../../assets/close-icon/close-icon-black.png';
 import whiteCloseIcon from './../../assets/close-icon/close-icon-white.png';
 import {useTheme} from "../../hooks/ThemeContext.jsx";
-import {currentUpdate, loadingWhileWaiting} from "../../store/updateCarDataSlice.js";
+import {currentQueue, currentUpdate} from "../../store/updateCarDataSlice.js";
 import {getPopup} from "../../store/popupSlice.js";
 
 const AddNewCarModal = ({modalIsShow, setModalIsShow}) => {
@@ -15,7 +15,7 @@ const AddNewCarModal = ({modalIsShow, setModalIsShow}) => {
   const dispatch = useDispatch();
   const {theme} = useTheme();
   const currentUpdating = useSelector(currentUpdate);
-  const loadingBeforeUpdating = useSelector(loadingWhileWaiting);
+  const currentUserQueue = useSelector(currentQueue);
 
   const formik = useFormik({
     initialValues: {
@@ -27,7 +27,7 @@ const AddNewCarModal = ({modalIsShow, setModalIsShow}) => {
         setErrors(errors);
       } else {
         await dispatch(sendRequestForCreateNewCar(values.url));
-        if (Object.values(currentUpdating).length > 0 || loadingBeforeUpdating.length > 0) {
+        if (Object.values(currentUpdating).length > 0 || Object.keys(currentUserQueue).length > 0) {
           dispatch(getPopup({text: 'Добавление авто поставлено в очередь', delay: 5000}))
         }
         setModalIsShow(false);

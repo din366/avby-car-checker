@@ -46,7 +46,7 @@ const ProgressBarComponent = ({itemId, currentUpdateProcess}) => {
   }, [currentUpdatingInfo]);
 
   return (
-    <div className={`${styles.loadingProgressBar} ${(currentUpdateProcess[itemId]?.status === 'process') ? styles.activeLoadingProgressBar : ''}`} id={`progressBarContainer-${itemId}`}></div>
+    <div className={`${styles.loadingProgressBar} ${(currentUpdateProcess?.carId === itemId) ? styles.activeLoadingProgressBar : ''}`} id={`progressBarContainer-${itemId}`}></div>
   );
 };
 
