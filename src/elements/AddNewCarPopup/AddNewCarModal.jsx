@@ -27,8 +27,6 @@ const AddNewCarModal = ({modalIsShow, setModalIsShow}) => {
         setErrors(errors);
       } else {
         await dispatch(sendRequestForCreateNewCar(values.url));
-        console.log(currentUpdating);
-        console.log(currentUserQueue);
         if (currentUpdating || currentUserQueue.length > 0) {
           dispatch(getPopup({text: 'Добавление авто поставлено в очередь', delay: 5000}))
         }

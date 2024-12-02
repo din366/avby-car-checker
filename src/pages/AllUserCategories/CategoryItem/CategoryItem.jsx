@@ -22,7 +22,6 @@ const CategoryItem = ({itemId, items, name, thumb, updateTime, currentUpdateProc
     e.preventDefault();
     setDeleteCarModalData({itemId, name});
   }
-  console.log(!thumb)
   return (
     <div>
       <Link to={`/categories/${itemId}`}>

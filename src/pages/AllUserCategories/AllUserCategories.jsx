@@ -29,12 +29,11 @@ const AllUserCategories = () => {
     }
     return false;
   }
-
   useEffect(() => {
     if (token) {
       dispatch(getCategoryName());
     }
-  }, [dispatch, token, categories?.length, /*currentUpdateProcess?.length*/]); // ! пока что не обновляются данные после обновления авто
+  }, [dispatch, token, categories?.length]); // ! пока что не обновляются данные после обновления авто
 
   const startAllCarsUpdate = (e) => {
     e.preventDefault();

@@ -6,7 +6,7 @@ import {
 } from "../store/updateCarDataSlice.js";
 import {setSocketId} from "../store/loginSlice.js";
 import {useDispatch, useSelector} from "react-redux";
-import {carIdAndName} from "../store/userCategorySlice.js";
+import {carIdAndName, getCategoryName} from "../store/userCategorySlice.js";
 import {getPopup} from "../store/popupSlice.js";
 
 export const useSocket = (userName) => {
@@ -40,6 +40,7 @@ export const useSocket = (userName) => {
       dispatch(setActiveTask({carId, status}));
     } else if (status === 'success') {
       getPopupFunc(carId, 5000, true);
+      dispatch(getCategoryName()); // ? update main category cards data after change server data
       dispatch(clearActiveTask());
     } else {
       dispatch(getPopup({
