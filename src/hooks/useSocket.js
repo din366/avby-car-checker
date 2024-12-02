@@ -1,7 +1,7 @@
 import {io} from "socket.io-client";
 import {useEffect, useRef} from "react";
 import {
-  clearActiveTask, getAllQueueLengthForAllUsers, setActiveTask,
+  clearActiveTask, clearUpdatingCount, getAllQueueLengthForAllUsers, setActiveTask,
   setUpdatingCount, updateQueue,
 } from "../store/updateCarDataSlice.js";
 import {setSocketId} from "../store/loginSlice.js";
@@ -34,7 +34,13 @@ export const useSocket = (userName) => {
       )
     )
   }
-  const handleUpdateStatus = ({carId, status}) => {
+
+  const handleUpdateStatus = (updateStatus) => {
+    if (updateStatus === null) {
+      dispatch(clearActiveTask());
+      return;
+    }
+    const {carId, status} = updateStatus;
     if (status === 'process') {
       getPopupFunc(carId, 5000);
       dispatch(setActiveTask({carId, status}));
@@ -57,7 +63,11 @@ export const useSocket = (userName) => {
   }
 
   const handleUpdateCount = ({carId, countStatus, carsCount}) => {
-    dispatch(setUpdatingCount({carId, countStatus, carsCount}))
+    if (carId !== null) {
+      dispatch(setUpdatingCount({carId, countStatus, carsCount}))
+    } else {
+      dispatch(clearUpdatingCount());
+    }
   };
 
   const allQueueLength = ({allQueueLength}) => {
@@ -66,8 +76,11 @@ export const useSocket = (userName) => {
 
 
   useEffect(() => {
-    if (socketRef.current && globalSocketRef.current) {
+    if (socketRef.current) {
       socketRef.current.disconnect();
+    }
+
+    if (globalSocketRef.current) {
       globalSocketRef.current.disconnect();
     }
 

@@ -2,6 +2,7 @@ import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import axios from "axios";
 import {LOGIN_URL} from "../globalPaths.js";
 import {clearCategoriesDataBeforeLogout} from "./userCategorySlice.js";
+import {clearActiveTask, clearQueue, clearUpdatingCount} from "./updateCarDataSlice.js";
 
 const initialState = {
   token: null,
@@ -71,6 +72,9 @@ export const logout = createAsyncThunk('login/logout', (payload, { dispatch }) =
   dispatch(clearToken());
   dispatch(clearUserName());
   dispatch(clearCategoriesDataBeforeLogout());
+  dispatch(clearActiveTask());
+  dispatch(clearUpdatingCount());
+  dispatch(clearQueue());
   localStorage.removeItem('token');
   localStorage.removeItem('username');
 })

@@ -19,7 +19,12 @@ const updateCarDataSlice = createSlice({
         ...state,
         currentQueue: action.payload,
       }
-
+    },
+    clearQueue: (state) => {
+      return {
+        ...state,
+        currentQueue: [],
+      }
     },
     getAllQueueLengthForAllUsers: (state, action) => {
       return {
@@ -50,7 +55,7 @@ const updateCarDataSlice = createSlice({
         updatingCount: action.payload,
       }
     },
-    clearUpdatingCount: (state, action) => {
+    clearUpdatingCount: (state) => {
       return {
         ...state,
         updatingCount: '0',
@@ -93,7 +98,8 @@ export const {
   updateQueue,
   getAllQueueLengthForAllUsers,
   setActiveTask,
-  clearActiveTask
+  clearActiveTask,
+  clearQueue
 } = updateCarDataSlice.actions;
 
 export const updateCarCategoryReducer = updateCarDataSlice.reducer;

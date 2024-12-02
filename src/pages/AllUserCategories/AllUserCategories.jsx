@@ -8,6 +8,7 @@ import {getToken} from "../../store/loginSlice.js";
 import {currentQueue, currentUpdate, sendStartUpdatingRequest} from "../../store/updateCarDataSlice.js";
 import AddNewCarModal from "../../elements/AddNewCarPopup/AddNewCarModal.jsx";
 import DeleteCarModal from "../../elements/DeleteCarModal/DeleteCarModal.jsx";
+import AllQueueCountBlock from "../../elements/AllQueueCountBlock/AllQueueCountBlock.jsx";
 
 
 const AllUserCategories = () => {
@@ -33,7 +34,7 @@ const AllUserCategories = () => {
     if (token) {
       dispatch(getCategoryName());
     }
-  }, [dispatch, token, categories?.length]); // ! пока что не обновляются данные после обновления авто
+  }, [dispatch, token, categories?.length]);
 
   const startAllCarsUpdate = (e) => {
     e.preventDefault();
@@ -47,6 +48,7 @@ const AllUserCategories = () => {
           <div className={styles.categoryHeaderWrapper}>
           <h1>Список добавленных категорий</h1>
             <div className={styles.categoryNavigationWrapper}>
+              <AllQueueCountBlock />
               <button
                 className={styles.updateAllButton}
                 onClick={() => {setModalIsShow(true)}}
