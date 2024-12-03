@@ -20,11 +20,15 @@ a {
     height: 20px;
     top: 10px;
     right: 10px;
-
+    transition: 0.5s right ease;
     img {
       width: 100%;
       height: 100%;
     }
+  }
+
+  .hideDeleteCarIcon {
+    right: -30px;
   }
 
   .deleteCarIcon .deleteIconActive {
@@ -110,15 +114,46 @@ a {
     justify-content: flex-start;
     flex-wrap: wrap;
 
-    span {
+    .carsDynamicsInfo {
+      font-size: 18px;
+      display: flex;
+      justify-content: flex-start;
+      margin-bottom: 10px;
+      span {
+        margin-right: 15px;
+      }
+
+      span:last-child {
+        margin-right: 0;
+      }
+    }
+
+    .carCategoryTitle,
+    .carCategoryCarCount,
+    .carCategoryUpdate,
+    {
       font-size: 18px;
       display: block;
       width: 100%;
       margin-bottom: 10px;
     }
 
-    span:last-child {
+    .carCategoryTitle:last-child,
+    .carCategoryCarCount:last-child,
+    .carCategoryUpdate:last-child, {
       margin-bottom: 0;
+    }
+  }
+
+  .carsDynamicsShortData {
+    .shortData {
+      display: flex;
+      flex-wrap: wrap;
+
+      .carsDynamicsPrices {
+        display: flex;
+        flex-wrap: wrap;
+      }
     }
   }
 }
@@ -126,3 +161,4 @@ a {
 .carCategory:hover {
   transform: translateY(-5px);
 }
+

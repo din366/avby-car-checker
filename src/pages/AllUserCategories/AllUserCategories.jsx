@@ -74,6 +74,15 @@ const AllUserCategories = () => {
                   name={category.name}
                   items={category.items}
                   updateTime={category.updateTime}
+                  dynamicsData={
+                    {
+                      maxPriceDynamics: category.maxPriceDynamics,
+                      middlePriceDynamics: category.middlePriceDynamics,
+                      minPriceDynamics: category.minPriceDynamics,
+                      newCarsCount: category.newCarsCount,
+                      soldCarsCount: category.soldCarsCount,
+                    }
+                  }
                   currentUpdateProcess={currentUpdateProcess}
                   setDeleteCarModalData={setDeleteCarModalData}
                 />
@@ -85,6 +94,7 @@ const AllUserCategories = () => {
                   thumb={null}
                   name={null}
                   items={null}
+                  dynamicsData={null}
                   updateTime={null}
                   currentUpdateProcess={currentUpdateProcess}
                 /> : ''
@@ -97,6 +107,7 @@ const AllUserCategories = () => {
                   thumb={null}
                   name={null}
                   items={null}
+                  dynamicsData={null}
                   updateTime={null}
                   currentUpdateProcess={currentUpdateProcess}
                 />

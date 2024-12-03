@@ -8,8 +8,9 @@ import trashIconWhite from './../../../assets/trash-icon/trash-icon-white.png';
 import trashIconActive from './../../../assets/trash-icon/trash-icon-active.png';
 import carIconPlaceholder from './../../../assets/carPlaceholder.png';
 import {useTheme} from "../../../hooks/ThemeContext.jsx";
+import DynamicsPriceDataBlock from "./DynamicsPriceDataBlock/DynamicsPriceDataBlock.jsx";
 
-const CategoryItem = ({itemId, items, name, thumb, updateTime, currentUpdateProcess, setDeleteCarModalData}) => {
+const CategoryItem = ({itemId, items, name, thumb, updateTime, currentUpdateProcess, setDeleteCarModalData, dynamicsData}) => {
   const dispatch = useDispatch();
   const currentUserQueue = useSelector(currentQueue)
   const {theme} = useTheme();
@@ -31,8 +32,26 @@ const CategoryItem = ({itemId, items, name, thumb, updateTime, currentUpdateProc
           </div>
           <div className={styles.carCategoryText}>
             <span className={styles.carCategoryTitle}>{name ? `Авто: ${name}` : 'Загрузка данных об авто'}</span>
-            {items ? <span className={styles.carCategoryCarCount}>Сейчас в продаже: {items} шт</span> : ''}
+            <div className={styles.carsDynamicsInfo}>
+              {items ? <span>В продаже: {items}</span> : ''}
+              {dynamicsData?.newCarsCount ? <span>Новых: {dynamicsData.newCarsCount}</span> : ''}
+              {dynamicsData?.soldCarsCount ? <span>Закрытых: {dynamicsData.soldCarsCount}</span> : ''}
+            </div>
             {updateTime ? <span className={styles.carCategoryUpdate}>Обновлено: {updateTime}</span> : ''}
+
+            {dynamicsData ?
+              <div className={styles.carsDynamicsShortData}>
+                <div className={styles.shortData}>
+                  <div className={styles.carsDynamicsPrices}>
+                    {dynamicsData?.minPriceDynamics ? <DynamicsPriceDataBlock prices={dynamicsData.minPriceDynamics} placeholder={'Min'}/> : ''}
+                    {dynamicsData?.middlePriceDynamics ? <DynamicsPriceDataBlock prices={dynamicsData.middlePriceDynamics} placeholder={'Mid'}/> : ''}
+                    {dynamicsData?.maxPriceDynamics ? <DynamicsPriceDataBlock prices={dynamicsData.maxPriceDynamics} placeholder={'Max'}/> : ''}
+                  </div>
+                </div>
+              </div>
+              : ''
+            }
+
           </div>
           {itemId ? <>
             <button
@@ -46,7 +65,7 @@ const CategoryItem = ({itemId, items, name, thumb, updateTime, currentUpdateProc
 
             <ProgressBarComponent itemId={itemId} currentUpdateProcess={currentUpdateProcess}/>
 
-            <div className={styles.deleteCarIcon} onClick={clickTrashButton}>
+            <div className={`${styles.deleteCarIcon} ${currentUpdateProcess?.carId === itemId || currentUserQueue?.find(item => item === itemId) ?styles.hideDeleteCarIcon : ''}`} onClick={clickTrashButton}>
               <img className={styles.deleteIcon} src={theme === 'dark' ? trashIconWhite : trashIconBlack}/>
               <img className={styles.deleteIconActive} src={trashIconActive} alt=""/>
             </div>
@@ -67,3 +86,4 @@ const CategoryItem = ({itemId, items, name, thumb, updateTime, currentUpdateProc
 };
 
 export default CategoryItem;
+
