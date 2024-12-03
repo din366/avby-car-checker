@@ -5,35 +5,15 @@ import {
   setUpdatingCount, updateQueue,
 } from "../store/updateCarDataSlice.js";
 import {setSocketId} from "../store/loginSlice.js";
-import {useDispatch, useSelector} from "react-redux";
-import {carIdAndName, getCategoryName} from "../store/userCategorySlice.js";
-import {getPopup} from "../store/popupSlice.js";
+import {useDispatch} from "react-redux";
+import {getCategoryName} from "../store/userCategorySlice.js";
+import {getUpdateStatusPopup} from "../store/popupSlice.js";
 
 export const useSocket = (userName) => {
   const dispatch = useDispatch();
-  const categoryNames = useSelector(carIdAndName);
-
-  // ? create ref because there is no way to add categoryNames to the useEffect
-  // ? dependency, otherwise there will be an additional reconnection to socket
-  const categoryNamesRef = useRef(categoryNames);
-  useEffect(() => {
-    categoryNamesRef.current = categoryNames;
-  }, [categoryNames]);
-  // ? ------------------------------------------------------------------------------------
 
   const socketRef = useRef(); // ? for reconnect socketIo when userName is changed
   const globalSocketRef = useRef(); // ? socket for global messages
-
-  const getPopupFunc = (carId, delay, isEnd) => {
-    dispatch(
-      getPopup(
-        {
-          text: `Обновление для ${(categoryNamesRef.current && categoryNamesRef.current[carId]) ? categoryNamesRef.current[carId] : 'авто'} ${isEnd ? 'завершено' : 'запущено'}`,
-          delay
-        }
-      )
-    )
-  }
 
   const handleUpdateStatus = (updateStatus) => {
     if (updateStatus === null) {
@@ -42,18 +22,15 @@ export const useSocket = (userName) => {
     }
     const {carId, status} = updateStatus;
     if (status === 'process') {
-      getPopupFunc(carId, 5000);
+      console.log(555);
+      dispatch(getUpdateStatusPopup({carId, delay: 5000}));
       dispatch(setActiveTask({carId, status}));
     } else if (status === 'success') {
-      getPopupFunc(carId, 5000, true);
+      dispatch(getUpdateStatusPopup({carId, delay: 5000, isEnd: true}));
       dispatch(getCategoryName()); // ? update main category cards data after change server data
       dispatch(clearActiveTask());
     } else {
-      dispatch(getPopup({
-        text: `Ошибка обновления для ${(categoryNamesRef.current && categoryNamesRef.current[carId]) ? categoryNamesRef.current[carId] : 'авто'}`,
-        delay: 5000,
-        type: 'alert'
-      }))
+      dispatch(getUpdateStatusPopup({carId, delay: 5000, type: 'alert'}));
       dispatch(clearActiveTask());
     }
   };

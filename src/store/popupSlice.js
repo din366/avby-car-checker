@@ -45,6 +45,42 @@ export const getPopup = createAsyncThunk(
   }
 )
 
+export const getUpdateStatusPopup = createAsyncThunk(
+  'getUpdateStatusPopup',
+  ({carId, delay, isEnd, type}, {getState, dispatch}) => {
+    const state = getState();
+    const categories = state.userCategory.categoriesData;
+    const currentCarUpdate = state.updateCarCategory.updating;
+
+    let categoryNames = null;
+    if (categories) {
+      categoryNames = categories.reduce((acc, category) => {
+        acc[category.itemId] = category.name;
+        return acc;
+      }, {})
+    }
+
+    if (type !== 'alert' && currentCarUpdate?.carId !== carId) { // ? currentCarUpdate so that the popup does not appear again if the task is already active
+      dispatch(
+        getPopup(
+          {
+            text: `Обновление для ${(categoryNames && categoryNames[carId]) ? categoryNames[carId] : 'авто'} ${isEnd ? 'завершено' : 'запущено'}`,
+            delay
+          }
+        )
+      )
+    }
+
+    if (type === 'alert') {
+      dispatch(getPopup({
+        text: `Ошибка обновления для ${(categoryNames && categoryNames[carId]) ? categoryNames[carId] : 'авто'}`,
+        delay,
+        type
+      }))
+    }
+  }
+)
+
 export const popupsQueue = state => state.popup.queue;
 
 export const {

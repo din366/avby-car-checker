@@ -64,7 +64,7 @@ const DuplicatedLinks = ({duplicateAd, sliceCount, currentCategory}) => {
       <div className={styles.duplicateAds}>
         {duplicateAd.slice(-sliceCount).map(item =>
           <a className={styles.duplicateBlock}
-             key={item.url}
+             key={item.url+item.soldDate}
              target='_blank'
              href={item.url}
              onClick={(e) => {

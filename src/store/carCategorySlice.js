@@ -79,7 +79,6 @@ export const setFavoriteOrHiddenCar = createAsyncThunk(
   async ({categoryId, carId, type}, {rejectWithValue, getState}) => {
     const state = getState();
     const token = state.login.token;
-    console.log(SET_FAVORITE_OR_HIDDEN_CAR(categoryId, carId, type))
     try {
       const response = await axios.get(SET_FAVORITE_OR_HIDDEN_CAR(categoryId, carId, type), {
         headers: {

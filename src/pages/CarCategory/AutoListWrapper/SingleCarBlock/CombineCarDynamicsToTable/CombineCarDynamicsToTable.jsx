@@ -16,12 +16,6 @@ const CombineCarDynamicsToTable = ({arr}) => {
       <tbody>
       <tr className={styles.tr}>
         {slicedArray.map((item, index) => {
-          /*console.log(`
-            Больше ли
-            ${arr[index]?.[1] > arr[index - 1]?.[1]}
-            Текущая дата: ${arr[index]?.[0]} - ${arr[index]?.[1]}
-            Предыдущая дата: ${arr[index - 1]?.[0]} - ${arr[index - 1]?.[1]}
-          `)*/
           if (slicedArray[index]?.[1] > slicedArray[index - 1]?.[1]) {
             return <td key={`data-${index}`}>
               <img className={styles.greenArrow} src={greenArrow}/>

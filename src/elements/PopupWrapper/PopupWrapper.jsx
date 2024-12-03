@@ -5,7 +5,6 @@ import Popup from "./Popup/Popup.jsx";
 
 const PopupWrapper = () => {
   const currentPopupsQueue = useSelector(popupsQueue)?.slice(0,3);
-
   return (
     <div className={styles.popupsWrapper}>
       {currentPopupsQueue.length ? currentPopupsQueue.map(item => <Popup
