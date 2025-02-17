@@ -1,7 +1,13 @@
 # Client-API для парсера авто с сайта av.by
+<img align="center" max-width="800px" src="https://github.com/din366/images/blob/main/readme%20images/avby-checker/front-main-1.jpg">
 
+-------------------------
 
-<img align="center" max-width="800px" src="https://github.com/din366/images/blob/main/readme%20images/commercial-projects/avby-checker/front-main-1.gif?raw=true" alt="open gif">
+<img align="center" max-width="800px" src="https://github.com/din366/images/blob/main/readme%20images/avby-checker/front-main-2.jpg">
+
+-------------------------
+
+<img align="center" max-width="800px" src="https://github.com/din366/images/blob/main/readme%20images/avby-checker/front-main-1.gif?raw=true" alt="open gif">
 
 <p>:warning: Данный клиент работает в паре с серверным API:</p> 
 :arrow_right: <a href="https://github.com/din366/avby-car-checker-api">[github проект серверного API]</a>
@@ -33,25 +39,25 @@ Api работает по принципу парсера через прило�
 1. При первом открытии нас встречает окно авторизации. Данные авторизации сравниваются с серверным api. 
 При успешной авторизации выдается токен для последующего захода в api без необходимости авторизации. В случае наличия ошибок форма подскажет где они были допущены.
 
-<img align="center" max-width="800px" src="https://github.com/din366/images/blob/main/readme%20images/avby-checker/work-1.png">
+<img align="center" max-width="800px" src="https://github.com/din366/images/blob/main/readme%20images/avby-checker/work-1.jpg">
 
 2. В приложении есть возможность выбора темы светлая/темная. Все элементы адаптированы под цветовую схему.
 
-<img align="center" max-width="800px" src="https://github.com/din366/images/blob/main/readme%20images/avby-checker/work-2.png">
+<img align="center" max-width="800px" src="https://github.com/din366/images/blob/main/readme%20images/avby-checker/work-2.jpg">
 
 3. Авторизованный пользователь автоматически попадает в список добавленных категорий. 
 Если в категории нет добавленных авто - требуется добавить авто в соответствующем окне. 
 После нажатия кнопки "Добавить автомобиль" сразу начнется первоначальный парсинг данных.
 
-<img align="center" max-width="800px" src="https://github.com/din366/images/blob/main/readme%20images/avby-checker/work-3.png">
+<img align="center" max-width="800px" src="https://github.com/din366/images/blob/main/readme%20images/avby-checker/work-3.jpg">
 
 4. Парсинг авто сопровождается лоадерами и проходит в два этапа: сначала собираются данные по категории и количеству авто, после данные по каждому авто (что будет видно на прогресс баре).
 
-<img align="center" max-width="800px" src="https://github.com/din366/images/blob/main/readme%20images/avby-checker/work-4.png">
+<img align="center" max-width="800px" src="https://github.com/din366/images/blob/main/readme%20images/avby-checker/work-4.jpg">
 
 5. Все действия с обновлениями сопровождаются всплывающими сообщениями (успешно или ошибка).
 
-<img align="center" max-width="800px" src="https://github.com/din366/images/blob/main/readme%20images/avby-checker/work-5.png">
+<img align="center" max-width="800px" src="https://github.com/din366/images/blob/main/readme%20images/avby-checker/work-5.jpg">
 
 5. Так как информация про парсинг между клиентом и сервером синхронизируется через вебсокеты, то обновление страницы не приведет к потере информации про текущее обновление, пользователь всей равно будет видеть текущий процесс обновления данных.
 
@@ -59,19 +65,19 @@ Api работает по принципу парсера через прило�
 
 6. На карточке товара можно отследить как изменение в количестве объявлений, так и динамику цен по всем объявлениям категории. В случае неактуальности категории ее можно удалить (данные на сервере не удаляются, а перемещаются в архивную папку).
 
-<img align="center" max-width="800px" src="https://github.com/din366/images/blob/main/readme%20images/avby-checker/work-7.png">
+<img align="center" max-width="800px" src="https://github.com/din366/images/blob/main/readme%20images/avby-checker/work-7.jpg">
 
 7. При входе в карточку категории мы увидим более подробные данные про динамику изменения цен - графики по последним 15 парсингам.
 
-<img align="center" max-width="800px" src="https://github.com/din366/images/blob/main/readme%20images/avby-checker/work-8.png">
+<img align="center" max-width="800px" src="https://github.com/din366/images/blob/main/readme%20images/avby-checker/work-8.jpg">
 
 8. На странице категории из общего списка авто можно добавить в избранное, скрыть из списка, тем самым добавив в категорию скрытых. Новые авто (если между парсингами появились новые объявления) будут добавляться во вкладку "Новые авто". Если объявление было закрыто - оно попадет во вкладку "Закрытые объявления" и пропадет из вкладок "Сейчас в продаже", "Избранные в продаже", "Скрытые в продаже".
 
-<img align="center" max-width="800px" src="https://github.com/din366/images/blob/main/readme%20images/avby-checker/work-9.png">
+<img align="center" max-width="800px" src="https://github.com/din366/images/blob/main/readme%20images/avby-checker/work-9.jpg">
 
 9. В закрытых объявлениях все также можно будет видеть было ли авто в избранных или скрытых, а также дату закрытия объявления.
 
-<img align="center" max-width="800px" src="https://github.com/din366/images/blob/main/readme%20images/avby-checker/work-10.png">
+<img align="center" max-width="800px" src="https://github.com/din366/images/blob/main/readme%20images/avby-checker/work-10.jpg">
 
 ## Запуск приложения:
 
