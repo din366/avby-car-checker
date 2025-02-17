@@ -32,13 +32,6 @@ const CategoryItem = ({itemId, items, name, thumb, updateTime, currentUpdateProc
           </div>
           <div className={styles.carCategoryText}>
             <span className={styles.carCategoryTitle}>{name ? `Авто: ${name}` : 'Загрузка данных об авто'}</span>
-            <div className={styles.carsDynamicsInfo}>
-              {items ? <span>В продаже: {items}</span> : ''}
-              {dynamicsData?.newCarsCount ? <span>Новых: {dynamicsData.newCarsCount}</span> : ''}
-              {dynamicsData?.soldCarsCount ? <span>Закрытых: {dynamicsData.soldCarsCount}</span> : ''}
-            </div>
-            {updateTime ? <span className={styles.carCategoryUpdate}>Обновлено: {updateTime}</span> : ''}
-
             {dynamicsData ?
               <div className={styles.carsDynamicsShortData}>
                 <div className={styles.shortData}>
@@ -51,6 +44,12 @@ const CategoryItem = ({itemId, items, name, thumb, updateTime, currentUpdateProc
               </div>
               : ''
             }
+            <div className={styles.carsDynamicsInfo}>
+              {items ? <span>В продаже: {items}</span> : ''}
+              {dynamicsData?.newCarsCount ? <span>Новых: {dynamicsData.newCarsCount}</span> : ''}
+              {dynamicsData?.soldCarsCount ? <span>Закрытых: {dynamicsData.soldCarsCount}</span> : ''}
+            </div>
+            {updateTime ? <span className={styles.carCategoryUpdate}>Обновлено: {updateTime}</span> : ''}
 
           </div>
           {itemId ? <>

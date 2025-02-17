@@ -63,6 +63,9 @@ export const useSocket = (userName) => {
 
 
     if (userName && handleUpdateStatus && handleUpdateCount) {
+      /*socketRef.current = io(`http://192.168.1.150:3001/${userName}`) // ? messages only current user (namespace)
+      globalSocketRef.current = io(`http://192.168.1.150:3001`) // ? global messages*/
+
       socketRef.current = io(`http://localhost:3001/${userName}`) // ? messages only current user (namespace)
       globalSocketRef.current = io(`http://localhost:3001`) // ? global messages
 
